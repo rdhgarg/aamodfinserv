@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as PartnersRouteImport } from './routes/partners'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -23,6 +24,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const PartnersRoute = PartnersRouteImport.update({
   id: '/partners',
   path: '/partners',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CalculatorRoute = CalculatorRouteImport.update({
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/calculator': typeof CalculatorRoute
+  '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
   '/services': typeof ServicesRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/calculator': typeof CalculatorRoute
+  '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
   '/services': typeof ServicesRoute
 }
@@ -60,21 +68,36 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/calculator': typeof CalculatorRoute
+  '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
   '/services': typeof ServicesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/calculator' | '/partners' | '/services'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/calculator'
+    | '/contact'
+    | '/partners'
+    | '/services'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/calculator' | '/partners' | '/services'
-  id: '__root__' | '/' | '/about' | '/calculator' | '/partners' | '/services'
+  to: '/' | '/about' | '/calculator' | '/contact' | '/partners' | '/services'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/calculator'
+    | '/contact'
+    | '/partners'
+    | '/services'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CalculatorRoute: typeof CalculatorRoute
+  ContactRoute: typeof ContactRoute
   PartnersRoute: typeof PartnersRoute
   ServicesRoute: typeof ServicesRoute
 }
@@ -93,6 +116,13 @@ declare module '@tanstack/react-router' {
       path: '/partners'
       fullPath: '/partners'
       preLoaderRoute: typeof PartnersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/calculator': {
@@ -123,6 +153,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CalculatorRoute: CalculatorRoute,
+  ContactRoute: ContactRoute,
   PartnersRoute: PartnersRoute,
   ServicesRoute: ServicesRoute,
 }
