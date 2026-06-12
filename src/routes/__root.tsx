@@ -84,6 +84,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: "Aamod Finserv" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { title: "Lovable App" },
+      { property: "og:title", content: "Lovable App" },
+      { name: "twitter:title", content: "Lovable App" },
+      { name: "description", content: "A professional, SEO-integrated website redesign for Aamod Finserv, enhancing user experience and online presence." },
+      { property: "og:description", content: "A professional, SEO-integrated website redesign for Aamod Finserv, enhancing user experience and online presence." },
+      { name: "twitter:description", content: "A professional, SEO-integrated website redesign for Aamod Finserv, enhancing user experience and online presence." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a7272b96-cd12-42f5-838c-7e1c5c5a35e8/id-preview-df0a8077--15b5fbe7-f070-4a43-9b6e-b79789f2dc57.lovable.app-1781264735177.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a7272b96-cd12-42f5-838c-7e1c5c5a35e8/id-preview-df0a8077--15b5fbe7-f070-4a43-9b6e-b79789f2dc57.lovable.app-1781264735177.png" },
     ],
     links: [
       {
