@@ -1,13 +1,14 @@
+import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
   Handshake,
   Landmark,
-  LineChart,
   ShieldCheck,
   Sparkles,
-  Users,
   Wallet,
   Briefcase,
   HeartPulse,
@@ -15,8 +16,16 @@ import {
   Headphones,
   Network,
   MessagesSquare,
+  Play,
+  Quote,
+  Star,
+  Instagram,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import heroLoans from "@/assets/hero-loans.jpg";
+import heroFunding from "@/assets/hero-funding.jpg";
+import heroSubsidies from "@/assets/hero-subsidies.jpg";
+import heroHealth from "@/assets/hero-health.jpg";
 
 const DESC =
   "Aamod Finserv: trusted loan consultancy, project funding, government subsidies and financial health checkups. 40+ years of expertise, 50+ banking partners.";
@@ -36,11 +45,58 @@ export const Route = createFileRoute("/")({
 });
 
 const services = [
-  { icon: Handshake, title: "Loans Consultancy", desc: "Lock your dreams with the right loan, guided by experts.", href: "/services" },
-  { icon: Briefcase, title: "Project Funding", desc: "Fuel business growth with smart, strategic project funding.", href: "/services" },
-  { icon: Landmark, title: "Government Subsidies", desc: "Maximize your project's potential with government benefits.", href: "/services" },
-  { icon: HeartPulse, title: "Financial Health Checkup", desc: "Take control of your financial future today.", href: "/services" },
-  { icon: Scale, title: "Labour Law Consultancy", desc: "Ensure compliance and protect your workforce.", href: "/services" },
+  { icon: Handshake, title: "Loans Consultancy", desc: "Lock your dreams with the right loan, guided by experts.", href: "/services/loans-consultancy" },
+  { icon: Briefcase, title: "Project Funding", desc: "Fuel business growth with smart, strategic project funding.", href: "/services/project-funding" },
+  { icon: Landmark, title: "Government Subsidies", desc: "Maximize your project's potential with government benefits.", href: "/services/government-subsidies" },
+  { icon: HeartPulse, title: "Financial Health Checkup", desc: "Take control of your financial future today.", href: "/services/financial-health-checkup" },
+  { icon: Scale, title: "Labour Law Consultancy", desc: "Ensure compliance and protect your workforce.", href: "/services/labour-law-consultancy" },
+];
+
+const slides = [
+  {
+    img: heroLoans,
+    eyebrow: "Loan Strategy",
+    title: "Your EMIs Could Be Costing You Lakhs.",
+    sub: "Smarter loan strategies = less interest, more freedom.",
+    cta: "/services/financial-health-checkup",
+  },
+  {
+    img: heroSubsidies,
+    eyebrow: "Government Subsidies",
+    title: "Turn Government Policies Into Your Growth Partner.",
+    sub: "Fuel expansion with incentives designed for entrepreneurs like you.",
+    cta: "/services/government-subsidies",
+  },
+  {
+    img: heroFunding,
+    eyebrow: "Project Funding",
+    title: "Turn Big Dreams Into Funded Reality — The Smarter Way.",
+    sub: "From resorts to hospitals, unlock strategic funding, subsidies & growth without cash drain.",
+    cta: "/services/project-funding",
+  },
+  {
+    img: heroHealth,
+    eyebrow: "Wealth Planning",
+    title: "You Work for Money. Is Your Money Working for You?",
+    sub: "Turn income & savings into wealth with smart goal-based planning.",
+    cta: "/services/financial-health-checkup",
+  },
+];
+
+const testimonials = [
+  { name: "Aditya Kr Singh", city: "Sikar", tag: "Business Loan", text: "Excellent experience, loved it. The team made the entire process smooth from start to finish." },
+  { name: "Shubham Gupta", city: "Jaipur", tag: "Loan", text: "Professional, transparent and helpful. The loan was processed and disbursed much faster than I expected." },
+  { name: "Deepanker Yash", city: "Jaipur", tag: "Financial Planning", text: "Connected with Aamod Finserv for 8 years — a one-stop solution for all financial planning and needs." },
+  { name: "Ankit Agarwal", city: "Jaipur", tag: "Home Loan", text: "Easy, fast and transparent. Availing a secured loan with this company was a great experience." },
+  { name: "Dikshit Meena", city: "Jaipur", tag: "Govt Subsidy (RIPS)", text: "Very good company and very nice service. They handled my subsidy paperwork end-to-end." },
+  { name: "Maya Singh", city: "Delhi", tag: "Personal Loan", text: "Very good experience. Got my loan approved without the usual back-and-forth headaches." },
+];
+
+const insightVideos = [
+  { title: "EMI vs Tenure: how to actually save lakhs", id: "dQw4w9WgXcQ" },
+  { title: "What MSMEs miss about government subsidies", id: "9bZkp7q19f0" },
+  { title: "Project funding decoded for first-time founders", id: "tgbNymZ7vqY" },
+  { title: "Financial health checkup walkthrough", id: "L_jWHffIx5E" },
 ];
 
 const stats = [
@@ -71,75 +127,7 @@ const steps = [
 function HomePage() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-blue-soft/60 via-background to-background" />
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            <div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-                <Sparkles className="h-3.5 w-3.5" /> Trusted across 50+ banks & NBFCs
-              </span>
-              <h1 className="mt-5 font-display text-4xl font-bold leading-tight tracking-tight text-brand-navy sm:text-5xl lg:text-6xl">
-                Smarter Finance.<br />
-                <span className="text-primary">Stronger Futures.</span>
-              </h1>
-              <p className="mt-5 max-w-xl text-lg text-muted-foreground">
-                From the right loan to government subsidies, we simplify every financial decision — so your money works as hard as you do.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button size="lg" asChild>
-                  <Link to="/contact">Talk to an Expert <ArrowRight className="ml-1 h-4 w-4" /></Link>
-                </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <Link to="/calculator">Try EMI Calculator</Link>
-                </Button>
-              </div>
-              <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
-                {["No-jargon advice", "50+ banking partners", "End-to-end handholding"].map((t) => (
-                  <li key={t} className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-primary" /> {t}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="relative">
-              <div className="absolute -inset-6 -z-10 rounded-3xl bg-gradient-to-br from-primary/20 to-transparent blur-2xl" />
-              <div className="rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-elevated)]">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-xs uppercase tracking-wider text-muted-foreground">Funds raised</div>
-                    <div className="font-display text-3xl font-bold text-brand-navy">₹1500+ Cr</div>
-                  </div>
-                  <div className="grid h-12 w-12 place-items-center rounded-xl bg-primary/10 text-primary">
-                    <LineChart className="h-6 w-6" />
-                  </div>
-                </div>
-                <div className="mt-6 grid grid-cols-3 gap-3">
-                  {[
-                    { k: "Clients", v: "950+" },
-                    { k: "Partners", v: "50+" },
-                    { k: "Years", v: "40+" },
-                  ].map((s) => (
-                    <div key={s.k} className="rounded-xl bg-secondary p-3 text-center">
-                      <div className="font-display text-xl font-bold text-brand-navy">{s.v}</div>
-                      <div className="text-[11px] uppercase tracking-wider text-muted-foreground">{s.k}</div>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-6 space-y-3">
-                  {services.slice(0, 3).map((s) => (
-                    <div key={s.title} className="flex items-center gap-3 rounded-xl border border-border bg-background p-3">
-                      <span className="grid h-9 w-9 place-items-center rounded-lg bg-primary/10 text-primary">
-                        <s.icon className="h-4 w-4" />
-                      </span>
-                      <span className="text-sm font-medium text-brand-navy">{s.title}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSlider />
 
       {/* Services */}
       <Section eyebrow="What we do" title="Our expertise. Your advantage." subtitle="Tailored financial solutions, backed by experience.">
@@ -205,6 +193,87 @@ function HomePage() {
         </div>
       </Section>
 
+      {/* Testimonials */}
+      <section className="bg-secondary/40 py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-orange">Testimonials</div>
+            <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-brand-navy sm:text-4xl">What our clients say</h2>
+            <p className="mt-3 text-muted-foreground">Your trust is our greatest achievement.</p>
+          </div>
+          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {testimonials.map((t) => (
+              <figure key={t.name} className="relative rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
+                <Quote className="absolute right-5 top-5 h-7 w-7 text-brand-orange/30" />
+                <div className="flex items-center gap-0.5 text-brand-orange">
+                  {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}
+                </div>
+                <blockquote className="mt-3 text-sm text-foreground/80">"{t.text}"</blockquote>
+                <figcaption className="mt-5 flex items-center gap-3 border-t border-border pt-4">
+                  <span className="grid h-10 w-10 place-items-center rounded-full bg-brand-blue text-sm font-bold text-white">
+                    {t.name.split(" ").map(n => n[0]).slice(0,2).join("")}
+                  </span>
+                  <span>
+                    <span className="block font-display text-sm font-semibold text-brand-navy">{t.name}</span>
+                    <span className="block text-xs text-muted-foreground">{t.city} · {t.tag}</span>
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Video Testimonials / Insights */}
+      <Section eyebrow="Insights & Knowledge" title="Empowering you with knowledge" subtitle="Bite-sized expertise from our advisors — watch, learn, decide smarter.">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {insightVideos.map((v) => (
+            <a key={v.id} href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noreferrer" className="group block overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition hover:-translate-y-0.5 hover:shadow-[var(--shadow-elevated)]">
+              <div className="relative aspect-video overflow-hidden bg-brand-navy">
+                <img src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`} alt={v.title} loading="lazy" className="h-full w-full object-cover opacity-90 transition group-hover:scale-105" />
+                <span className="absolute inset-0 grid place-items-center">
+                  <span className="grid h-14 w-14 place-items-center rounded-full bg-brand-orange text-white shadow-lg transition group-hover:scale-110">
+                    <Play className="ml-0.5 h-6 w-6 fill-current" />
+                  </span>
+                </span>
+              </div>
+              <div className="p-4">
+                <h3 className="font-display text-sm font-semibold text-brand-navy line-clamp-2">{v.title}</h3>
+                <span className="mt-2 inline-flex items-center gap-1 text-xs text-brand-orange">Watch now <ArrowRight className="h-3 w-3" /></span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </Section>
+
+      {/* Instagram Reels */}
+      <section className="bg-gradient-to-b from-background to-brand-blue-soft/40 py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-orange">@aamodfinserv</div>
+              <h2 className="mt-2 font-display text-3xl font-bold text-brand-navy sm:text-4xl">Follow our Reels</h2>
+              <p className="mt-2 max-w-xl text-muted-foreground">Quick finance hacks, reels and behind-the-scenes from our advisors.</p>
+            </div>
+            <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-orange to-pink-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:opacity-90">
+              <Instagram className="h-4 w-4" /> Follow on Instagram
+            </a>
+          </div>
+          <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
+            {insightVideos.map((v, i) => (
+              <a key={i} href="https://www.instagram.com/" target="_blank" rel="noreferrer" className="group relative block aspect-[9/16] overflow-hidden rounded-2xl border border-border bg-brand-navy shadow-[var(--shadow-card)]">
+                <img src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`} alt="Reel" loading="lazy" className="h-full w-full object-cover transition group-hover:scale-105" />
+                <span className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-black/40 px-2 py-1 text-[10px] font-medium text-white backdrop-blur">
+                  <Instagram className="h-3 w-3" /> Reel
+                </span>
+                <span className="absolute bottom-3 left-3 right-3 text-xs font-medium text-white line-clamp-2">{v.title}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Partners strip */}
       <Section eyebrow="Trusted by" title="50+ banking & NBFC partners">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
@@ -236,6 +305,53 @@ function HomePage() {
         </div>
       </section>
     </>
+  );
+}
+
+function HeroSlider() {
+  const [i, setI] = useState(0);
+  const go = (n: number) => setI((n + slides.length) % slides.length);
+  useEffect(() => {
+    const id = setInterval(() => setI((x) => (x + 1) % slides.length), 6000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <section className="relative h-[78vh] min-h-[520px] w-full overflow-hidden bg-brand-navy">
+      {slides.map((s, idx) => (
+        <div key={idx} className={`absolute inset-0 transition-opacity duration-700 ${idx === i ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+          <img src={s.img} alt={s.title} className="h-full w-full object-cover" loading={idx === 0 ? "eager" : "lazy"} />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-navy/90 via-brand-navy/60 to-transparent" />
+          <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+            <div className="max-w-2xl text-white">
+              <span className="inline-flex items-center gap-2 rounded-full bg-brand-orange/20 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-orange ring-1 ring-brand-orange/40">
+                <Sparkles className="h-3.5 w-3.5" /> {s.eyebrow}
+              </span>
+              <h1 className="mt-5 font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">{s.title}</h1>
+              <p className="mt-4 max-w-xl text-lg text-white/80">{s.sub}</p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button size="lg" asChild className="bg-brand-orange text-white hover:bg-brand-orange/90">
+                  <Link to={s.cta}>Learn More <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild className="border-white/40 bg-white/10 text-white hover:bg-white/20">
+                  <Link to="/contact">Talk to Expert</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+      <button aria-label="Previous slide" onClick={() => go(i - 1)} className="absolute left-3 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white/15 text-white backdrop-blur transition hover:bg-white/25 sm:left-6">
+        <ChevronLeft className="h-5 w-5" />
+      </button>
+      <button aria-label="Next slide" onClick={() => go(i + 1)} className="absolute right-3 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white/15 text-white backdrop-blur transition hover:bg-white/25 sm:right-6">
+        <ChevronRight className="h-5 w-5" />
+      </button>
+      <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+        {slides.map((_, idx) => (
+          <button key={idx} aria-label={`Slide ${idx + 1}`} onClick={() => setI(idx)} className={`h-1.5 rounded-full transition-all ${idx === i ? "w-8 bg-brand-orange" : "w-4 bg-white/40"}`} />
+        ))}
+      </div>
+    </section>
   );
 }
 

@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Mail, Phone, Clock, MapPin, TrendingUp } from "lucide-react";
+import { Mail, Phone, Clock, MapPin, Instagram, Facebook, Linkedin } from "lucide-react";
+import logo from "@/assets/aamod-logo.png.asset.json";
 
 export function SiteFooter() {
   return (
@@ -7,15 +8,19 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-4">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-foreground">
-                <TrendingUp className="h-5 w-5" />
-              </span>
-              <span className="font-display text-lg font-bold">Aamod Finserv</span>
+            <div className="inline-flex rounded-lg bg-white px-3 py-2">
+              <img src={logo.url} alt="Aamod Finserv" width={180} height={48} className="h-10 w-auto" />
             </div>
             <p className="mt-4 text-sm text-white/70">
-              Simplifying finance to turn your dreams into reality. 40+ years of collective expertise, 50+ banking partners.
+              You Dream It. We Chase It. Simplifying finance with 40+ years of collective expertise and 50+ banking partners across India.
             </p>
+            <div className="mt-4 flex gap-2">
+              {[{ I: Instagram, h: "https://instagram.com" }, { I: Facebook, h: "https://facebook.com" }, { I: Linkedin, h: "https://linkedin.com" }].map(({ I, h }, i) => (
+                <a key={i} href={h} target="_blank" rel="noreferrer" className="grid h-9 w-9 place-items-center rounded-lg bg-white/10 transition hover:bg-brand-orange">
+                  <I className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
           </div>
           <div>
             <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-white/80">Explore</h3>
