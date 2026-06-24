@@ -143,20 +143,21 @@ export const Route = createFileRoute("/services/$slug")({
   loader: ({ params }) => {
     const d = details[params.slug];
     if (!d) throw notFound();
-    return d;
+    return { slug: params.slug };
   },
-  head: ({ loaderData }) => {
-    if (!loaderData) return { meta: [{ title: "Service — Aamod Finserv" }] };
-    const desc = `${loaderData.tagline} ${loaderData.description}`.slice(0, 158);
-    const url = `/services/${loaderData.slug}`;
+  head: ({ params }) => {
+    const d = params?.slug ? details[params.slug] : undefined;
+    if (!d) return { meta: [{ title: "Service — Aamod Finserv" }] };
+    const desc = `${d.tagline} ${d.description}`.slice(0, 158);
+    const url = `/services/${d.slug}`;
     return {
       meta: [
-        { title: `${loaderData.title} — Aamod Finserv` },
+        { title: `${d.title} — Aamod Finserv` },
         { name: "description", content: desc },
-        { property: "og:title", content: `${loaderData.title} — Aamod Finserv` },
+        { property: "og:title", content: `${d.title} — Aamod Finserv` },
         { property: "og:description", content: desc },
         { property: "og:url", content: url },
-        { property: "og:image", content: loaderData.hero },
+        { property: "og:image", content: d.hero },
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [{
@@ -164,8 +165,8 @@ export const Route = createFileRoute("/services/$slug")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Service",
-          name: loaderData.title,
-          description: loaderData.tagline,
+          name: d.title,
+          description: d.tagline,
           provider: { "@type": "FinancialService", name: "Aamod Finserv Pvt. Ltd." },
           areaServed: "IN",
         }),
@@ -189,7 +190,9 @@ export const Route = createFileRoute("/services/$slug")({
 });
 
 function ServiceDetail() {
-  const d = Route.useLoaderData() as Detail;
+  const { slug } = Route.useLoaderData();
+  const d = details[slug];
+  if (!d) return null;
   const Icon = d.icon;
   return (
     <>
