@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, TrendingUp } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/aamod-logo.png.asset.json";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -15,16 +16,16 @@ const nav = [
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/70">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 w-full bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/75 shadow-sm">
+      <div className="hidden bg-brand-navy text-white sm:block">
+        <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-4 text-xs sm:px-6 lg:px-8">
+          <span className="flex items-center gap-2"><Phone className="h-3 w-3 text-brand-orange" /> +91 97840 09748 · Mon–Sat 09:00–20:00</span>
+          <span className="opacity-80">admin1@aamodfinserv.com</span>
+        </div>
+      </div>
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-foreground">
-            <TrendingUp className="h-5 w-5" aria-hidden />
-          </span>
-          <span className="flex flex-col leading-tight">
-            <span className="font-display text-base font-bold text-brand-navy">Aamod Finserv</span>
-            <span className="text-[10px] uppercase tracking-wider text-muted-foreground">You dream it, we make it happen</span>
-          </span>
+          <img src={logo.url} alt="Aamod Finserv Pvt. Ltd." width={210} height={56} className="h-12 w-auto" />
         </Link>
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
           {nav.map((n) => (
