@@ -2,17 +2,11 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
-  CheckCircle2,
   ChevronLeft,
   ChevronRight,
-  Handshake,
-  Landmark,
   ShieldCheck,
   Sparkles,
   Wallet,
-  Briefcase,
-  HeartPulse,
-  Scale,
   Headphones,
   Network,
   MessagesSquare,
@@ -26,6 +20,11 @@ import heroLoans from "@/assets/hero-loans.jpg";
 import heroFunding from "@/assets/hero-funding.jpg";
 import heroSubsidies from "@/assets/hero-subsidies.jpg";
 import heroHealth from "@/assets/hero-health.jpg";
+import svcLoans from "@/assets/svc-loans.jpg";
+import svcFunding from "@/assets/svc-funding.jpg";
+import svcSubsidies from "@/assets/svc-subsidies.jpg";
+import svcHealth from "@/assets/svc-health.jpg";
+import svcLabour from "@/assets/svc-labour.jpg";
 
 const DESC =
   "Aamod Finserv: trusted loan consultancy, project funding, government subsidies and financial health checkups. 40+ years of expertise, 50+ banking partners.";
@@ -45,11 +44,11 @@ export const Route = createFileRoute("/")({
 });
 
 const services = [
-  { icon: Handshake, title: "Loans Consultancy", desc: "Lock your dreams with the right loan, guided by experts.", href: "/services/loans-consultancy" },
-  { icon: Briefcase, title: "Project Funding", desc: "Fuel business growth with smart, strategic project funding.", href: "/services/project-funding" },
-  { icon: Landmark, title: "Government Subsidies", desc: "Maximize your project's potential with government benefits.", href: "/services/government-subsidies" },
-  { icon: HeartPulse, title: "Financial Health Checkup", desc: "Take control of your financial future today.", href: "/services/financial-health-checkup" },
-  { icon: Scale, title: "Labour Law Consultancy", desc: "Ensure compliance and protect your workforce.", href: "/services/labour-law-consultancy" },
+  { img: svcLoans, title: "Loans Consultancy", desc: "Lock your dreams with the right loan, guided by experts.", href: "/services/loans-consultancy" },
+  { img: svcFunding, title: "Project Funding", desc: "Fuel business growth with smart, strategic project funding.", href: "/services/project-funding" },
+  { img: svcSubsidies, title: "Government Subsidies", desc: "Maximize your project's potential with government benefits.", href: "/services/government-subsidies" },
+  { img: svcHealth, title: "Financial Health Checkup", desc: "Take control of your financial future today.", href: "/services/financial-health-checkup" },
+  { img: svcLabour, title: "Labour Law Consultancy", desc: "Ensure compliance and protect your workforce.", href: "/services/labour-law-consultancy" },
 ];
 
 const slides = [
@@ -124,6 +123,19 @@ const steps = [
   { n: "04", title: "Ongoing Support", desc: "Reviews and optimization as your finances evolve." },
 ];
 
+const partnerLogos = [
+  { name: "HDFC Bank", domain: "hdfcbank.com" },
+  { name: "ICICI Bank", domain: "icicibank.com" },
+  { name: "Axis Bank", domain: "axisbank.com" },
+  { name: "SBI", domain: "sbi.co.in" },
+  { name: "Kotak", domain: "kotak.com" },
+  { name: "Bajaj Finserv", domain: "bajajfinserv.in" },
+  { name: "Tata Capital", domain: "tatacapital.com" },
+  { name: "Yes Bank", domain: "yesbank.in" },
+  { name: "IDFC First", domain: "idfcfirstbank.com" },
+  { name: "IndusInd", domain: "indusind.com" },
+];
+
 function HomePage() {
   return (
     <>
@@ -133,15 +145,31 @@ function HomePage() {
       <Section eyebrow="What we do" title="Our expertise. Your advantage." subtitle="Tailored financial solutions, backed by experience.">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s) => (
-            <Link key={s.title} to={s.href} className="group rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[var(--shadow-elevated)]">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary">
-                <s.icon className="h-5 w-5" />
-              </span>
-              <h3 className="mt-5 font-display text-lg font-semibold text-brand-navy">{s.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{s.desc}</p>
-              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary opacity-0 transition group-hover:opacity-100">
-                Learn more <ArrowRight className="h-4 w-4" />
-              </span>
+            <Link
+              key={s.title}
+              to={s.href}
+              className="group overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[var(--shadow-elevated)] animate-fade-in"
+            >
+              <div className="relative h-44 overflow-hidden">
+                <img
+                  src={s.img}
+                  alt={s.title}
+                  loading="lazy"
+                  width={800}
+                  height={600}
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/70 via-brand-navy/10 to-transparent" />
+                <h3 className="absolute bottom-3 left-4 right-4 font-display text-lg font-semibold text-white">
+                  {s.title}
+                </h3>
+              </div>
+              <div className="p-5">
+                <p className="text-sm text-muted-foreground">{s.desc}</p>
+                <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
+                  Learn more <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                </span>
+              </div>
             </Link>
           ))}
         </div>
@@ -173,7 +201,7 @@ function HomePage() {
               <span className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary">
                 <w.icon className="h-5 w-5" />
               </span>
-              <h3 className="mt-4 font-display text-base font-semibold text-brand-navy">{w.title}</h3>
+              <h3 className="mt-4 font-display text-base font-semibold text-foreground">{w.title}</h3>
               <p className="mt-1.5 text-sm text-muted-foreground">{w.desc}</p>
             </div>
           ))}
@@ -186,7 +214,7 @@ function HomePage() {
           {steps.map((st) => (
             <div key={st.n} className="relative rounded-2xl border border-border bg-card p-6">
               <div className="font-display text-sm font-bold text-primary">{st.n}</div>
-              <h3 className="mt-2 font-display text-lg font-semibold text-brand-navy">{st.title}</h3>
+              <h3 className="mt-2 font-display text-lg font-semibold text-foreground">{st.title}</h3>
               <p className="mt-1.5 text-sm text-muted-foreground">{st.desc}</p>
             </div>
           ))}
@@ -198,7 +226,7 @@ function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-orange">Testimonials</div>
-            <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-brand-navy sm:text-4xl">What our clients say</h2>
+            <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">What our clients say</h2>
             <p className="mt-3 text-muted-foreground">Your trust is our greatest achievement.</p>
           </div>
           <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -214,7 +242,7 @@ function HomePage() {
                     {t.name.split(" ").map(n => n[0]).slice(0,2).join("")}
                   </span>
                   <span>
-                    <span className="block font-display text-sm font-semibold text-brand-navy">{t.name}</span>
+                    <span className="block font-display text-sm font-semibold text-foreground">{t.name}</span>
                     <span className="block text-xs text-muted-foreground">{t.city} · {t.tag}</span>
                   </span>
                 </figcaption>
@@ -238,7 +266,7 @@ function HomePage() {
                 </span>
               </div>
               <div className="p-4">
-                <h3 className="font-display text-sm font-semibold text-brand-navy line-clamp-2">{v.title}</h3>
+                <h3 className="font-display text-sm font-semibold text-foreground line-clamp-2">{v.title}</h3>
                 <span className="mt-2 inline-flex items-center gap-1 text-xs text-brand-orange">Watch now <ArrowRight className="h-3 w-3" /></span>
               </div>
             </a>
@@ -252,16 +280,16 @@ function HomePage() {
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <div>
               <div className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-orange">@aamodfinserv</div>
-              <h2 className="mt-2 font-display text-3xl font-bold text-brand-navy sm:text-4xl">Follow our Reels</h2>
+              <h2 className="mt-2 font-display text-3xl font-bold text-foreground sm:text-4xl">Follow our Reels</h2>
               <p className="mt-2 max-w-xl text-muted-foreground">Quick finance hacks, reels and behind-the-scenes from our advisors.</p>
             </div>
-            <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-orange to-pink-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:opacity-90">
+            <a href="https://www.instagram.com/ankitgoyalca?igsh=NmxtNmhnNDJkOXpv" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-orange to-pink-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:opacity-90 hover-scale">
               <Instagram className="h-4 w-4" /> Follow on Instagram
             </a>
           </div>
           <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
             {insightVideos.map((v, i) => (
-              <a key={i} href="https://www.instagram.com/" target="_blank" rel="noreferrer" className="group relative block aspect-[9/16] overflow-hidden rounded-2xl border border-border bg-brand-navy shadow-[var(--shadow-card)]">
+              <a key={i} href="https://www.instagram.com/ankitgoyalca?igsh=NmxtNmhnNDJkOXpv" target="_blank" rel="noreferrer" className="group relative block aspect-[9/16] overflow-hidden rounded-2xl border border-border bg-brand-navy shadow-[var(--shadow-card)] animate-fade-in">
                 <img src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`} alt="Reel" loading="lazy" className="h-full w-full object-cover transition group-hover:scale-105" />
                 <span className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-black/40 px-2 py-1 text-[10px] font-medium text-white backdrop-blur">
@@ -276,10 +304,19 @@ function HomePage() {
 
       {/* Partners strip */}
       <Section eyebrow="Trusted by" title="50+ banking & NBFC partners">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
-          {["HDFC", "ICICI", "Axis", "SBI", "Kotak", "Bajaj", "Tata Capital", "Yes Bank", "IDFC", "Indusind"].map((b) => (
-            <div key={b} className="grid h-16 place-items-center rounded-xl border border-border bg-card font-display text-sm font-semibold text-brand-navy">
-              {b}
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
+          {partnerLogos.map((b) => (
+            <div
+              key={b.name}
+              title={b.name}
+              className="grid h-20 place-items-center rounded-xl border border-border bg-card p-3 transition hover:-translate-y-0.5 hover:shadow-[var(--shadow-card)] dark:bg-white"
+            >
+              <img
+                src={`https://logo.clearbit.com/${b.domain}`}
+                alt={`${b.name} logo`}
+                loading="lazy"
+                className="max-h-10 max-w-[120px] object-contain"
+              />
             </div>
           ))}
         </div>
@@ -372,7 +409,7 @@ export function Section({
         {eyebrow && (
           <div className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">{eyebrow}</div>
         )}
-        <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-brand-navy sm:text-4xl">{title}</h2>
+        <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">{title}</h2>
         {subtitle && <p className="mt-3 text-muted-foreground">{subtitle}</p>}
       </div>
       <div className="mt-12">{children}</div>

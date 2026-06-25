@@ -39,7 +39,7 @@ function AboutPage() {
           {values.map((v) => (
             <div key={v.t} className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
               <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary"><v.icon className="h-5 w-5" /></span>
-              <h2 className="mt-4 font-display text-lg font-semibold text-brand-navy">{v.t}</h2>
+              <h2 className="mt-4 font-display text-lg font-semibold text-foreground">{v.t}</h2>
               <p className="mt-2 text-sm text-muted-foreground">{v.d}</p>
             </div>
           ))}
@@ -50,7 +50,7 @@ function AboutPage() {
         <div className="grid gap-12 lg:grid-cols-2">
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Our story</div>
-            <h2 className="mt-2 font-display text-3xl font-bold text-brand-navy">Built on 40+ years of financial wisdom</h2>
+            <h2 className="mt-2 font-display text-3xl font-bold text-foreground">Built on 40+ years of financial wisdom</h2>
             <p className="mt-4 text-muted-foreground">
               Aamod Finserv was built by a team of seasoned financial professionals who saw too many entrepreneurs and families struggle with confusing loan terms, missed subsidies and reactive money decisions.
             </p>
@@ -76,7 +76,7 @@ function AboutPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <Compass className="h-5 w-5 text-primary" />
-            <h2 className="font-display text-2xl font-bold text-brand-navy">Where we focus</h2>
+            <h2 className="font-display text-2xl font-bold text-foreground">Where we focus</h2>
           </div>
           <p className="mt-2 max-w-2xl text-muted-foreground">
             MSMEs, growth-stage businesses, salaried professionals and families looking to build long-term financial resilience.

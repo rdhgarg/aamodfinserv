@@ -139,7 +139,7 @@ function CalculatorPage() {
           <div className="space-y-6">
             <div className="rounded-3xl border border-border bg-gradient-to-br from-brand-blue-soft/60 to-card p-8 shadow-[var(--shadow-card)]">
               <div className="text-xs uppercase tracking-wider text-muted-foreground">Monthly EMI</div>
-              <div className="mt-1 font-display text-4xl font-bold text-brand-navy">{inr(emi)}</div>
+              <div className="mt-1 font-display text-4xl font-bold text-foreground">{inr(emi)}</div>
               <div className="mt-6 grid grid-cols-2 gap-4">
                 <Stat label="Total interest" value={inr(totalInterest)} />
                 <Stat label="Total payable" value={inr(totalPayable)} />
@@ -170,7 +170,7 @@ function CalculatorPage() {
         {/* Amortization */}
         <div className="mt-10 overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-card)]">
           <div className="border-b border-border p-6">
-            <h2 className="font-display text-xl font-semibold text-brand-navy">Yearly amortization</h2>
+            <h2 className="font-display text-xl font-semibold text-foreground">Yearly amortization</h2>
             <p className="text-sm text-muted-foreground">How your EMI splits between principal and interest each year.</p>
           </div>
           <div className="overflow-x-auto">
@@ -186,7 +186,7 @@ function CalculatorPage() {
               <tbody>
                 {schedule.map((row) => (
                   <tr key={row.year} className="border-t border-border">
-                    <td className="px-6 py-3 font-medium text-brand-navy">{row.year}</td>
+                    <td className="px-6 py-3 font-medium text-foreground">{row.year}</td>
                     <td className="px-6 py-3 text-right">{inr(row.principal)}</td>
                     <td className="px-6 py-3 text-right">{inr(row.interest)}</td>
                     <td className="px-6 py-3 text-right">{inr(row.balance)}</td>
@@ -205,7 +205,7 @@ function Field({ label, value, input }: { label: string; value: string; input: R
   return (
     <div>
       <div className="flex items-baseline justify-between">
-        <Label className="text-sm font-medium text-brand-navy">{label}</Label>
+        <Label className="text-sm font-medium text-foreground">{label}</Label>
         <span className="font-display text-sm font-semibold text-primary">{value}</span>
       </div>
       <div className="mt-3 space-y-4">{input}</div>
@@ -217,7 +217,7 @@ function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl bg-card p-4">
       <div className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</div>
-      <div className="mt-1 font-display text-lg font-bold text-brand-navy">{value}</div>
+      <div className="mt-1 font-display text-lg font-bold text-foreground">{value}</div>
     </div>
   );
 }

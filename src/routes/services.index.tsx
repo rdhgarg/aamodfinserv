@@ -94,7 +94,7 @@ function ServicesPage() {
                     0{i + 1} / 0{services.length}
                   </span>
                 </div>
-                <h2 className="mt-4 font-display text-2xl font-bold text-brand-navy">{s.title}</h2>
+                <h2 className="mt-4 font-display text-2xl font-bold text-foreground">{s.title}</h2>
                 <p className="mt-2 text-muted-foreground">{s.pitch}</p>
                 <ul className="mt-5 grid gap-2 sm:grid-cols-3">
                   {s.bullets.map((b) => (

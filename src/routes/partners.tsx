@@ -4,13 +4,37 @@ import { PageHeader } from "@/components/page-header";
 const DESC =
   "Aamod Finserv works with 50+ leading banks and NBFCs across India to find the right loan and funding options for you.";
 
-const banks = [
-  "HDFC Bank", "ICICI Bank", "Axis Bank", "State Bank of India", "Kotak Mahindra",
-  "IDFC First", "Yes Bank", "IndusInd Bank", "Bank of Baroda", "PNB",
-  "Bajaj Finserv", "Tata Capital", "Aditya Birla Finance", "L&T Finance", "Mahindra Finance",
-  "HDB Financial", "Fullerton India", "Piramal Capital", "Shriram Finance", "Hero FinCorp",
-  "Cholamandalam", "Federal Bank", "RBL Bank", "Standard Chartered", "DBS Bank",
-  "South Indian Bank", "Karur Vysya Bank", "Ujjivan SFB", "AU Small Finance", "Equitas SFB",
+const banks: { name: string; domain: string }[] = [
+  { name: "HDFC Bank", domain: "hdfcbank.com" },
+  { name: "ICICI Bank", domain: "icicibank.com" },
+  { name: "Axis Bank", domain: "axisbank.com" },
+  { name: "State Bank of India", domain: "sbi.co.in" },
+  { name: "Kotak Mahindra", domain: "kotak.com" },
+  { name: "IDFC First", domain: "idfcfirstbank.com" },
+  { name: "Yes Bank", domain: "yesbank.in" },
+  { name: "IndusInd Bank", domain: "indusind.com" },
+  { name: "Bank of Baroda", domain: "bankofbaroda.in" },
+  { name: "Punjab National Bank", domain: "pnbindia.in" },
+  { name: "Bajaj Finserv", domain: "bajajfinserv.in" },
+  { name: "Tata Capital", domain: "tatacapital.com" },
+  { name: "Aditya Birla Finance", domain: "adityabirlacapital.com" },
+  { name: "L&T Finance", domain: "ltfs.com" },
+  { name: "Mahindra Finance", domain: "mahindrafinance.com" },
+  { name: "HDB Financial", domain: "hdbfs.com" },
+  { name: "Fullerton India", domain: "fullertonindia.com" },
+  { name: "Piramal Capital", domain: "piramalfinance.com" },
+  { name: "Shriram Finance", domain: "shriramfinance.in" },
+  { name: "Hero FinCorp", domain: "herofincorp.com" },
+  { name: "Cholamandalam", domain: "cholamandalam.com" },
+  { name: "Federal Bank", domain: "federalbank.co.in" },
+  { name: "RBL Bank", domain: "rblbank.com" },
+  { name: "Standard Chartered", domain: "sc.com" },
+  { name: "DBS Bank", domain: "dbs.com" },
+  { name: "South Indian Bank", domain: "southindianbank.com" },
+  { name: "Karur Vysya Bank", domain: "kvb.co.in" },
+  { name: "Ujjivan SFB", domain: "ujjivansfb.in" },
+  { name: "AU Small Finance", domain: "aubank.in" },
+  { name: "Equitas SFB", domain: "equitasbank.com" },
 ];
 
 export const Route = createFileRoute("/partners")({
@@ -32,13 +56,19 @@ function PartnersPage() {
     <>
       <PageHeader eyebrow="Our network" title="50+ banking & NBFC partners" subtitle="A strong lender network so you get the best-fit option — faster, with negotiated terms." />
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           {banks.map((b) => (
             <div
-              key={b}
-              className="grid h-24 place-items-center rounded-xl border border-border bg-card p-4 text-center font-display text-sm font-semibold text-brand-navy shadow-[var(--shadow-card)] transition hover:-translate-y-0.5 hover:border-primary/40"
+              key={b.name}
+              className="group flex h-28 flex-col items-center justify-center gap-2 rounded-xl border border-border bg-card p-3 text-center shadow-[var(--shadow-card)] transition duration-300 hover:-translate-y-1 hover:border-primary/40 dark:bg-white animate-fade-in"
             >
-              {b}
+              <img
+                src={`https://logo.clearbit.com/${b.domain}`}
+                alt={`${b.name} logo`}
+                loading="lazy"
+                className="max-h-10 max-w-[140px] object-contain transition group-hover:scale-105"
+              />
+              <span className="font-display text-[11px] font-medium text-brand-navy/80">{b.name}</span>
             </div>
           ))}
         </div>

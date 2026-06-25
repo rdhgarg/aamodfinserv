@@ -175,14 +175,14 @@ export const Route = createFileRoute("/services/$slug")({
   },
   notFoundComponent: () => (
     <div className="mx-auto max-w-2xl px-4 py-24 text-center">
-      <h1 className="font-display text-3xl font-bold text-brand-navy">Service not found</h1>
+      <h1 className="font-display text-3xl font-bold text-foreground">Service not found</h1>
       <p className="mt-2 text-muted-foreground">The service you're looking for doesn't exist.</p>
       <Button asChild className="mt-6"><Link to="/services">Back to services</Link></Button>
     </div>
   ),
   errorComponent: ({ reset }) => (
     <div className="mx-auto max-w-2xl px-4 py-24 text-center">
-      <h1 className="font-display text-2xl font-bold text-brand-navy">Something went wrong</h1>
+      <h1 className="font-display text-2xl font-bold text-foreground">Something went wrong</h1>
       <Button onClick={reset} className="mt-6">Try again</Button>
     </div>
   ),
@@ -221,7 +221,7 @@ function ServiceDetail() {
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
           <div>
-            <h2 className="font-display text-3xl font-bold text-brand-navy">Overview</h2>
+            <h2 className="font-display text-3xl font-bold text-foreground">Overview</h2>
             <p className="mt-4 text-muted-foreground">{d.description}</p>
             <ul className="mt-6 grid gap-3 sm:grid-cols-2">
               {d.bullets.map((b) => (
@@ -233,7 +233,7 @@ function ServiceDetail() {
             </ul>
           </div>
           <aside className="rounded-2xl border border-border bg-brand-blue-soft/40 p-6 lg:sticky lg:top-28 lg:self-start">
-            <h3 className="font-display text-lg font-bold text-brand-navy">Talk to a senior advisor</h3>
+            <h3 className="font-display text-lg font-bold text-foreground">Talk to a senior advisor</h3>
             <p className="mt-2 text-sm text-muted-foreground">Free consultation. No obligations.</p>
             <ul className="mt-4 space-y-2 text-sm text-foreground">
               <li>· 40+ years of expertise</li>
@@ -249,11 +249,11 @@ function ServiceDetail() {
 
       <section className="bg-secondary/40 py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display text-3xl font-bold text-brand-navy">What we cover</h2>
+          <h2 className="font-display text-3xl font-bold text-foreground">What we cover</h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {d.offerings.map((o) => (
               <div key={o.t} className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition hover:-translate-y-0.5 hover:border-brand-orange/40">
-                <h3 className="font-display text-base font-semibold text-brand-navy">{o.t}</h3>
+                <h3 className="font-display text-base font-semibold text-foreground">{o.t}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{o.d}</p>
               </div>
             ))}
@@ -262,12 +262,12 @@ function ServiceDetail() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <h2 className="font-display text-3xl font-bold text-brand-navy">How we deliver</h2>
+        <h2 className="font-display text-3xl font-bold text-foreground">How we deliver</h2>
         <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {d.process.map((p, i) => (
             <li key={p} className="rounded-2xl border border-border bg-card p-6">
               <div className="font-display text-sm font-bold text-brand-orange">0{i + 1}</div>
-              <p className="mt-2 font-display text-base font-semibold text-brand-navy">{p}</p>
+              <p className="mt-2 font-display text-base font-semibold text-foreground">{p}</p>
             </li>
           ))}
         </ol>
