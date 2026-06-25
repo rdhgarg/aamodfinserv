@@ -15,7 +15,7 @@ export function SiteFooter() {
               You Dream It. We Chase It. Simplifying finance with 40+ years of collective expertise and 50+ banking partners across India.
             </p>
             <div className="mt-4 flex gap-2">
-              {[{ I: Instagram, h: "https://instagram.com" }, { I: Facebook, h: "https://facebook.com" }, { I: Linkedin, h: "https://linkedin.com" }].map(({ I, h }, i) => (
+              {[{ I: Instagram, h: "https://www.instagram.com/ankitgoyalca?igsh=NmxtNmhnNDJkOXpv" }, { I: Facebook, h: "https://facebook.com" }, { I: Linkedin, h: "https://linkedin.com" }].map(({ I, h }, i) => (
                 <a key={i} href={h} target="_blank" rel="noreferrer" className="grid h-9 w-9 place-items-center rounded-lg bg-white/10 transition hover:bg-brand-orange">
                   <I className="h-4 w-4" />
                 </a>
