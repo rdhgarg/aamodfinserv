@@ -137,7 +137,7 @@ function HomePage() {
               <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary">
                 <s.icon className="h-5 w-5" />
               </span>
-              <h3 className="mt-5 font-display text-lg font-semibold text-brand-navy">{s.title}</h3>
+              <h3 className="mt-5 font-display text-lg font-semibold text-foreground">{s.title}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{s.desc}</p>
               <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary opacity-0 transition group-hover:opacity-100">
                 Learn more <ArrowRight className="h-4 w-4" />
@@ -173,7 +173,7 @@ function HomePage() {
               <span className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary">
                 <w.icon className="h-5 w-5" />
               </span>
-              <h3 className="mt-4 font-display text-base font-semibold text-brand-navy">{w.title}</h3>
+              <h3 className="mt-4 font-display text-base font-semibold text-foreground">{w.title}</h3>
               <p className="mt-1.5 text-sm text-muted-foreground">{w.desc}</p>
             </div>
           ))}
@@ -186,7 +186,7 @@ function HomePage() {
           {steps.map((st) => (
             <div key={st.n} className="relative rounded-2xl border border-border bg-card p-6">
               <div className="font-display text-sm font-bold text-primary">{st.n}</div>
-              <h3 className="mt-2 font-display text-lg font-semibold text-brand-navy">{st.title}</h3>
+              <h3 className="mt-2 font-display text-lg font-semibold text-foreground">{st.title}</h3>
               <p className="mt-1.5 text-sm text-muted-foreground">{st.desc}</p>
             </div>
           ))}
@@ -198,7 +198,7 @@ function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-orange">Testimonials</div>
-            <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-brand-navy sm:text-4xl">What our clients say</h2>
+            <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">What our clients say</h2>
             <p className="mt-3 text-muted-foreground">Your trust is our greatest achievement.</p>
           </div>
           <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -214,7 +214,7 @@ function HomePage() {
                     {t.name.split(" ").map(n => n[0]).slice(0,2).join("")}
                   </span>
                   <span>
-                    <span className="block font-display text-sm font-semibold text-brand-navy">{t.name}</span>
+                    <span className="block font-display text-sm font-semibold text-foreground">{t.name}</span>
                     <span className="block text-xs text-muted-foreground">{t.city} · {t.tag}</span>
                   </span>
                 </figcaption>
@@ -238,7 +238,7 @@ function HomePage() {
                 </span>
               </div>
               <div className="p-4">
-                <h3 className="font-display text-sm font-semibold text-brand-navy line-clamp-2">{v.title}</h3>
+                <h3 className="font-display text-sm font-semibold text-foreground line-clamp-2">{v.title}</h3>
                 <span className="mt-2 inline-flex items-center gap-1 text-xs text-brand-orange">Watch now <ArrowRight className="h-3 w-3" /></span>
               </div>
             </a>
@@ -252,7 +252,7 @@ function HomePage() {
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <div>
               <div className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-orange">@aamodfinserv</div>
-              <h2 className="mt-2 font-display text-3xl font-bold text-brand-navy sm:text-4xl">Follow our Reels</h2>
+              <h2 className="mt-2 font-display text-3xl font-bold text-foreground sm:text-4xl">Follow our Reels</h2>
               <p className="mt-2 max-w-xl text-muted-foreground">Quick finance hacks, reels and behind-the-scenes from our advisors.</p>
             </div>
             <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-orange to-pink-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:opacity-90">
@@ -278,7 +278,7 @@ function HomePage() {
       <Section eyebrow="Trusted by" title="50+ banking & NBFC partners">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
           {["HDFC", "ICICI", "Axis", "SBI", "Kotak", "Bajaj", "Tata Capital", "Yes Bank", "IDFC", "Indusind"].map((b) => (
-            <div key={b} className="grid h-16 place-items-center rounded-xl border border-border bg-card font-display text-sm font-semibold text-brand-navy">
+            <div key={b} className="grid h-16 place-items-center rounded-xl border border-border bg-card font-display text-sm font-semibold text-foreground">
               {b}
             </div>
           ))}
@@ -372,7 +372,7 @@ export function Section({
         {eyebrow && (
           <div className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">{eyebrow}</div>
         )}
-        <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-brand-navy sm:text-4xl">{title}</h2>
+        <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">{title}</h2>
         {subtitle && <p className="mt-3 text-muted-foreground">{subtitle}</p>}
       </div>
       <div className="mt-12">{children}</div>

@@ -36,7 +36,7 @@ function PartnersPage() {
           {banks.map((b) => (
             <div
               key={b}
-              className="grid h-24 place-items-center rounded-xl border border-border bg-card p-4 text-center font-display text-sm font-semibold text-brand-navy shadow-[var(--shadow-card)] transition hover:-translate-y-0.5 hover:border-primary/40"
+              className="grid h-24 place-items-center rounded-xl border border-border bg-card p-4 text-center font-display text-sm font-semibold text-foreground shadow-[var(--shadow-card)] transition hover:-translate-y-0.5 hover:border-primary/40"
             >
               {b}
             </div>
