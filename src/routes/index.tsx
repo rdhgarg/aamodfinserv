@@ -2,17 +2,11 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
-  CheckCircle2,
   ChevronLeft,
   ChevronRight,
-  Handshake,
-  Landmark,
   ShieldCheck,
   Sparkles,
   Wallet,
-  Briefcase,
-  HeartPulse,
-  Scale,
   Headphones,
   Network,
   MessagesSquare,
