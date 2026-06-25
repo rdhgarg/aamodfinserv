@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/aamod-logo.png.asset.json";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -41,10 +42,15 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="hidden lg:block">
-          <Button asChild>
-            <Link to="/contact">Talk to Expert</Link>
-          </Button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button asChild className="hover-scale">
+              <Link to="/contact">Talk to Expert</Link>
+            </Button>
+          </div>
         </div>
+        <div className="flex items-center gap-1 lg:hidden">
+        <ThemeToggle />
         <button
           className="inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground lg:hidden"
           onClick={() => setOpen((o) => !o)}
@@ -53,6 +59,7 @@ export function SiteHeader() {
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
+        </div>
       </div>
       {open && (
         <div className="border-t border-border bg-background lg:hidden">
