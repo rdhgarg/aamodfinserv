@@ -441,10 +441,23 @@ function HeroSlider() {
                     </span>
                     {s.eyebrow}
                   </span>
-                  <h1 className="mt-5 animate-fade-in-up font-display text-4xl font-extrabold leading-[1.05] tracking-tight delay-100 sm:text-5xl lg:text-6xl">
-                    {s.title}
+                  <h1 className="mt-5 animate-fade-in-up font-display text-5xl font-black leading-[1.02] tracking-tight text-white [text-shadow:0_2px_30px_rgba(0,0,0,0.45)] delay-100 sm:text-6xl lg:text-7xl">
+                    <span className="block">{s.title}</span>
+                    <span className="relative mt-2 inline-block bg-gradient-to-r from-brand-orange via-amber-300 to-brand-orange bg-[length:200%_100%] bg-clip-text text-transparent animate-shine">
+                      {s.highlight}
+                      <svg aria-hidden viewBox="0 0 300 12" className="absolute -bottom-2 left-0 h-2 w-full" preserveAspectRatio="none">
+                        <path d="M2 8 Q 75 2, 150 6 T 298 5" fill="none" stroke="url(#heroUnderline)" strokeWidth="3" strokeLinecap="round" />
+                        <defs>
+                          <linearGradient id="heroUnderline" x1="0" x2="1">
+                            <stop offset="0%" stopColor="hsl(var(--brand-orange))" stopOpacity="0" />
+                            <stop offset="50%" stopColor="hsl(var(--brand-orange))" />
+                            <stop offset="100%" stopColor="hsl(var(--brand-orange))" stopOpacity="0" />
+                          </linearGradient>
+                        </defs>
+                      </svg>
+                    </span>
                   </h1>
-                  <p className="mt-5 max-w-xl animate-fade-in-up text-lg text-white/80 delay-200">{s.sub}</p>
+                  <p className="mt-7 max-w-xl animate-fade-in-up text-lg leading-relaxed text-white/85 delay-200 sm:text-xl">{s.sub}</p>
                   <div className="mt-8 flex animate-fade-in-up flex-wrap gap-3 delay-300">
                     <Button size="lg" asChild className="bg-brand-orange text-white shadow-xl shadow-brand-orange/30 transition hover:-translate-y-0.5 hover:bg-brand-orange/90">
                       <Link to={s.cta}>Learn More <ArrowRight className="ml-1 h-4 w-4" /></Link>
