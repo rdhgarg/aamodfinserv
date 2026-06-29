@@ -14,8 +14,13 @@ import {
   Quote,
   Star,
   Instagram,
+  TrendingUp,
+  Users,
+  Clock,
+  Landmark,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useReveal } from "@/hooks/use-reveal";
 import heroLoans from "@/assets/hero-loans.jpg";
 import heroFunding from "@/assets/hero-funding.jpg";
 import heroSubsidies from "@/assets/hero-subsidies.jpg";
@@ -137,18 +142,39 @@ const partnerLogos = [
 ];
 
 function HomePage() {
+  useReveal();
   return (
     <>
       <HeroSlider />
 
-      {/* Services */}
-      <Section eyebrow="What we do" title="Our expertise. Your advantage." subtitle="Tailored financial solutions, backed by experience.">
+      {/* Overlapping Stats Strip */}
+      <div className="relative z-20 mx-auto -mt-16 max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="reveal grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-border bg-border shadow-[var(--shadow-elevated)] md:grid-cols-4">
+          {[
+            { icon: Users, n: "950+", l: "Clients Served" },
+            { icon: Clock, n: "24h", l: "Avg. Response" },
+            { icon: TrendingUp, n: "₹1500+ Cr", l: "Capital Raised" },
+            { icon: Landmark, n: "50+", l: "Banking Partners" },
+          ].map((s) => (
+            <div key={s.l} className="group flex flex-col items-center gap-2 bg-card p-7 text-center transition hover:bg-secondary/60">
+              <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary transition group-hover:scale-110">
+                <s.icon className="h-5 w-5" />
+              </span>
+              <div className="font-display text-2xl font-extrabold text-foreground sm:text-3xl">{s.n}</div>
+              <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{s.l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Services — bento with dark accent card */}
+      <Section eyebrow="Our Solutions" title="Customized lending ecosystem" subtitle="We don't just provide loans — we provide the fuel for your next chapter of growth.">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s) => (
+          {services.map((s, idx) => (
             <Link
               key={s.title}
               to={s.href}
-              className="group overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[var(--shadow-elevated)] animate-fade-in"
+              className={`reveal group overflow-hidden rounded-[2rem] border shadow-[var(--shadow-card)] transition duration-500 hover:-translate-y-2 hover:shadow-[var(--shadow-elevated)] ${idx === 1 ? "border-white/5 bg-brand-navy text-white hover:shadow-brand-orange/20" : "border-border bg-card hover:border-primary/40"}`}
             >
               <div className="relative h-44 overflow-hidden">
                 <img
@@ -164,9 +190,9 @@ function HomePage() {
                   {s.title}
                 </h3>
               </div>
-              <div className="p-5">
-                <p className="text-sm text-muted-foreground">{s.desc}</p>
-                <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
+              <div className="p-6">
+                <p className={`text-sm ${idx === 1 ? "text-white/70" : "text-muted-foreground"}`}>{s.desc}</p>
+                <span className={`mt-4 inline-flex items-center gap-1 text-sm font-semibold ${idx === 1 ? "text-brand-orange" : "text-primary"}`}>
                   Learn more <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                 </span>
               </div>
@@ -175,16 +201,19 @@ function HomePage() {
         </div>
       </Section>
 
-      {/* Stats */}
-      <section className="border-y border-border bg-brand-navy py-16 text-white">
+      {/* Impact in numbers */}
+      <section className="relative overflow-hidden border-y border-border bg-brand-navy py-20 text-white">
+        <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-orange/15 blur-[120px] animate-shimmer-pulse" />
+        <div className="pointer-events-none absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-brand-orange/40 to-transparent" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <h2 className="font-display text-3xl font-bold sm:text-4xl">Our impact in numbers</h2>
-            <p className="mt-2 text-white/70">Every number tells a story — of trust, growth, and lives changed.</p>
+          <div className="reveal max-w-2xl">
+            <div className="text-xs font-bold uppercase tracking-[0.2em] text-brand-orange">Our impact</div>
+            <h2 className="mt-2 font-display text-3xl font-bold sm:text-4xl">Every number tells a story</h2>
+            <p className="mt-2 text-white/70">Of trust earned, growth unlocked and lives transformed.</p>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {stats.map((s) => (
-              <div key={s.label} className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <div key={s.label} className="reveal group rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:-translate-y-1 hover:border-brand-orange/40 hover:bg-white/10">
                 <div className="font-display text-3xl font-bold text-primary sm:text-4xl">{s.value}</div>
                 <div className="mt-1 text-sm text-white/70">{s.label}</div>
               </div>
@@ -197,8 +226,8 @@ function HomePage() {
       <Section eyebrow="Why choose us" title="Finance made simple. Advice made personal." subtitle="Results made real.">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {whyUs.map((w) => (
-            <div key={w.title} className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
-              <span className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary">
+            <div key={w.title} className="reveal group rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition duration-500 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[var(--shadow-elevated)]">
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary transition duration-500 group-hover:bg-primary group-hover:text-primary-foreground group-hover:rotate-6">
                 <w.icon className="h-5 w-5" />
               </span>
               <h3 className="mt-4 font-display text-base font-semibold text-foreground">{w.title}</h3>
@@ -212,10 +241,11 @@ function HomePage() {
       <Section eyebrow="How we work" title="A clear path from query to approval">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((st) => (
-            <div key={st.n} className="relative rounded-2xl border border-border bg-card p-6">
-              <div className="font-display text-sm font-bold text-primary">{st.n}</div>
-              <h3 className="mt-2 font-display text-lg font-semibold text-foreground">{st.title}</h3>
-              <p className="mt-1.5 text-sm text-muted-foreground">{st.desc}</p>
+            <div key={st.n} className="reveal group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition hover:-translate-y-1 hover:border-primary/40 hover:shadow-[var(--shadow-card)]">
+              <div className="absolute -right-2 -top-2 font-display text-6xl font-black text-primary/5 transition group-hover:text-primary/10">{st.n}</div>
+              <div className="relative font-display text-sm font-bold text-primary">{st.n}</div>
+              <h3 className="relative mt-2 font-display text-lg font-semibold text-foreground">{st.title}</h3>
+              <p className="relative mt-1.5 text-sm text-muted-foreground">{st.desc}</p>
             </div>
           ))}
         </div>
@@ -302,23 +332,27 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Partners strip */}
+      {/* Partners marquee */}
       <Section eyebrow="Trusted by" title="50+ banking & NBFC partners">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
-          {partnerLogos.map((b) => (
-            <div
-              key={b.name}
-              title={b.name}
-              className="grid h-20 place-items-center rounded-xl border border-border bg-card p-3 transition hover:-translate-y-0.5 hover:shadow-[var(--shadow-card)] dark:bg-white"
-            >
-              <img
-                src={`https://logo.clearbit.com/${b.domain}`}
-                alt={`${b.name} logo`}
-                loading="lazy"
-                className="max-h-10 max-w-[120px] object-contain"
-              />
-            </div>
-          ))}
+        <div className="reveal relative overflow-hidden rounded-2xl border border-border bg-secondary/30 py-6">
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-background to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-background to-transparent" />
+          <div className="flex w-max animate-marquee gap-4">
+            {[...partnerLogos, ...partnerLogos].map((b, i) => (
+              <div
+                key={`${b.name}-${i}`}
+                title={b.name}
+                className="grid h-20 w-44 shrink-0 place-items-center rounded-xl border border-border bg-card p-3 dark:bg-white"
+              >
+                <img
+                  src={`https://logo.clearbit.com/${b.domain}`}
+                  alt={`${b.name} logo`}
+                  loading="lazy"
+                  className="max-h-10 max-w-[120px] object-contain"
+                />
+              </div>
+            ))}
+          </div>
         </div>
         <div className="mt-6 text-center">
           <Link to="/partners" className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline">
@@ -353,30 +387,57 @@ function HeroSlider() {
     return () => clearInterval(id);
   }, []);
   return (
-    <section className="relative h-[78vh] min-h-[520px] w-full overflow-hidden bg-brand-navy">
+    <section className="relative h-[82vh] min-h-[560px] w-full overflow-hidden bg-brand-navy">
+      {/* Ambient glows */}
+      <div className="pointer-events-none absolute -top-32 -right-32 z-[1] h-[28rem] w-[28rem] rounded-full bg-brand-orange/20 blur-[120px] animate-shimmer-pulse" />
+      <div className="pointer-events-none absolute bottom-0 left-1/4 z-[1] h-px w-full bg-gradient-to-r from-transparent via-brand-orange/40 to-transparent" />
       {slides.map((s, idx) => (
-        <div key={idx} className={`absolute inset-0 transition-opacity duration-700 ${idx === i ? "opacity-100" : "pointer-events-none opacity-0"}`}>
-          <img src={s.img} alt={s.title} className="h-full w-full object-cover" loading={idx === 0 ? "eager" : "lazy"} />
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-navy/90 via-brand-navy/60 to-transparent" />
+        <div key={idx} className={`absolute inset-0 transition-opacity duration-1000 ${idx === i ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+          <img src={s.img} alt={s.title} className={`h-full w-full object-cover transition-transform duration-[8000ms] ease-out ${idx === i ? "scale-110" : "scale-100"}`} loading={idx === 0 ? "eager" : "lazy"} />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-navy/95 via-brand-navy/70 to-brand-navy/20" />
           <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl text-white">
-              <span className="inline-flex items-center gap-2 rounded-full bg-brand-orange/20 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-orange ring-1 ring-brand-orange/40">
-                <Sparkles className="h-3.5 w-3.5" /> {s.eyebrow}
-              </span>
-              <h1 className="mt-5 font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">{s.title}</h1>
-              <p className="mt-4 max-w-xl text-lg text-white/80">{s.sub}</p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button size="lg" asChild className="bg-brand-orange text-white hover:bg-brand-orange/90">
-                  <Link to={s.cta}>Learn More <ArrowRight className="ml-1 h-4 w-4" /></Link>
-                </Button>
-                <Button size="lg" variant="outline" asChild className="border-white/40 bg-white/10 text-white hover:bg-white/20">
-                  <Link to="/contact">Talk to Expert</Link>
-                </Button>
-              </div>
+              {idx === i && (
+                <>
+                  <span className="inline-flex animate-fade-in-up items-center gap-2 rounded-full bg-brand-orange/15 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-brand-orange ring-1 ring-brand-orange/40 backdrop-blur">
+                    <span className="relative flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-orange opacity-75" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-orange" />
+                    </span>
+                    {s.eyebrow}
+                  </span>
+                  <h1 className="mt-5 animate-fade-in-up font-display text-4xl font-extrabold leading-[1.05] tracking-tight delay-100 sm:text-5xl lg:text-6xl">
+                    {s.title}
+                  </h1>
+                  <p className="mt-5 max-w-xl animate-fade-in-up text-lg text-white/80 delay-200">{s.sub}</p>
+                  <div className="mt-8 flex animate-fade-in-up flex-wrap gap-3 delay-300">
+                    <Button size="lg" asChild className="bg-brand-orange text-white shadow-xl shadow-brand-orange/30 transition hover:-translate-y-0.5 hover:bg-brand-orange/90">
+                      <Link to={s.cta}>Learn More <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                    </Button>
+                    <Button size="lg" variant="outline" asChild className="border-white/40 bg-white/10 text-white backdrop-blur hover:bg-white/20">
+                      <Link to="/contact">Talk to Expert</Link>
+                    </Button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
       ))}
+
+      {/* Floating disbursed badge */}
+      <div className="pointer-events-none absolute bottom-24 right-4 z-20 hidden animate-float-soft sm:right-10 lg:block">
+        <div className="flex items-center gap-4 rounded-2xl border border-border bg-card/95 p-5 shadow-[var(--shadow-elevated)] backdrop-blur">
+          <span className="grid h-12 w-12 place-items-center rounded-xl bg-brand-orange/15 text-brand-orange">
+            <TrendingUp className="h-6 w-6" />
+          </span>
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Capital Disbursed</div>
+            <div className="font-display text-2xl font-extrabold text-foreground">₹1500+ Cr</div>
+          </div>
+        </div>
+      </div>
+
       <button aria-label="Previous slide" onClick={() => go(i - 1)} className="absolute left-3 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white/15 text-white backdrop-blur transition hover:bg-white/25 sm:left-6">
         <ChevronLeft className="h-5 w-5" />
       </button>
@@ -385,7 +446,7 @@ function HeroSlider() {
       </button>
       <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-2">
         {slides.map((_, idx) => (
-          <button key={idx} aria-label={`Slide ${idx + 1}`} onClick={() => setI(idx)} className={`h-1.5 rounded-full transition-all ${idx === i ? "w-8 bg-brand-orange" : "w-4 bg-white/40"}`} />
+          <button key={idx} aria-label={`Slide ${idx + 1}`} onClick={() => setI(idx)} className={`h-1.5 rounded-full transition-all duration-500 ${idx === i ? "w-10 bg-brand-orange" : "w-4 bg-white/40 hover:bg-white/60"}`} />
         ))}
       </div>
     </section>
