@@ -387,30 +387,57 @@ function HeroSlider() {
     return () => clearInterval(id);
   }, []);
   return (
-    <section className="relative h-[78vh] min-h-[520px] w-full overflow-hidden bg-brand-navy">
+    <section className="relative h-[82vh] min-h-[560px] w-full overflow-hidden bg-brand-navy">
+      {/* Ambient glows */}
+      <div className="pointer-events-none absolute -top-32 -right-32 z-[1] h-[28rem] w-[28rem] rounded-full bg-brand-orange/20 blur-[120px] animate-shimmer-pulse" />
+      <div className="pointer-events-none absolute bottom-0 left-1/4 z-[1] h-px w-full bg-gradient-to-r from-transparent via-brand-orange/40 to-transparent" />
       {slides.map((s, idx) => (
-        <div key={idx} className={`absolute inset-0 transition-opacity duration-700 ${idx === i ? "opacity-100" : "pointer-events-none opacity-0"}`}>
-          <img src={s.img} alt={s.title} className="h-full w-full object-cover" loading={idx === 0 ? "eager" : "lazy"} />
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-navy/90 via-brand-navy/60 to-transparent" />
+        <div key={idx} className={`absolute inset-0 transition-opacity duration-1000 ${idx === i ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+          <img src={s.img} alt={s.title} className={`h-full w-full object-cover transition-transform duration-[8000ms] ease-out ${idx === i ? "scale-110" : "scale-100"}`} loading={idx === 0 ? "eager" : "lazy"} />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-navy/95 via-brand-navy/70 to-brand-navy/20" />
           <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl text-white">
-              <span className="inline-flex items-center gap-2 rounded-full bg-brand-orange/20 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-orange ring-1 ring-brand-orange/40">
-                <Sparkles className="h-3.5 w-3.5" /> {s.eyebrow}
-              </span>
-              <h1 className="mt-5 font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">{s.title}</h1>
-              <p className="mt-4 max-w-xl text-lg text-white/80">{s.sub}</p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button size="lg" asChild className="bg-brand-orange text-white hover:bg-brand-orange/90">
-                  <Link to={s.cta}>Learn More <ArrowRight className="ml-1 h-4 w-4" /></Link>
-                </Button>
-                <Button size="lg" variant="outline" asChild className="border-white/40 bg-white/10 text-white hover:bg-white/20">
-                  <Link to="/contact">Talk to Expert</Link>
-                </Button>
-              </div>
+              {idx === i && (
+                <>
+                  <span className="inline-flex animate-fade-in-up items-center gap-2 rounded-full bg-brand-orange/15 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-brand-orange ring-1 ring-brand-orange/40 backdrop-blur">
+                    <span className="relative flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-orange opacity-75" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-orange" />
+                    </span>
+                    {s.eyebrow}
+                  </span>
+                  <h1 className="mt-5 animate-fade-in-up font-display text-4xl font-extrabold leading-[1.05] tracking-tight delay-100 sm:text-5xl lg:text-6xl">
+                    {s.title}
+                  </h1>
+                  <p className="mt-5 max-w-xl animate-fade-in-up text-lg text-white/80 delay-200">{s.sub}</p>
+                  <div className="mt-8 flex animate-fade-in-up flex-wrap gap-3 delay-300">
+                    <Button size="lg" asChild className="bg-brand-orange text-white shadow-xl shadow-brand-orange/30 transition hover:-translate-y-0.5 hover:bg-brand-orange/90">
+                      <Link to={s.cta}>Learn More <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                    </Button>
+                    <Button size="lg" variant="outline" asChild className="border-white/40 bg-white/10 text-white backdrop-blur hover:bg-white/20">
+                      <Link to="/contact">Talk to Expert</Link>
+                    </Button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
       ))}
+
+      {/* Floating disbursed badge */}
+      <div className="pointer-events-none absolute bottom-24 right-4 z-20 hidden animate-float-soft sm:right-10 lg:block">
+        <div className="flex items-center gap-4 rounded-2xl border border-border bg-card/95 p-5 shadow-[var(--shadow-elevated)] backdrop-blur">
+          <span className="grid h-12 w-12 place-items-center rounded-xl bg-brand-orange/15 text-brand-orange">
+            <TrendingUp className="h-6 w-6" />
+          </span>
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Capital Disbursed</div>
+            <div className="font-display text-2xl font-extrabold text-foreground">₹1500+ Cr</div>
+          </div>
+        </div>
+      </div>
+
       <button aria-label="Previous slide" onClick={() => go(i - 1)} className="absolute left-3 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white/15 text-white backdrop-blur transition hover:bg-white/25 sm:left-6">
         <ChevronLeft className="h-5 w-5" />
       </button>
@@ -419,7 +446,7 @@ function HeroSlider() {
       </button>
       <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-2">
         {slides.map((_, idx) => (
-          <button key={idx} aria-label={`Slide ${idx + 1}`} onClick={() => setI(idx)} className={`h-1.5 rounded-full transition-all ${idx === i ? "w-8 bg-brand-orange" : "w-4 bg-white/40"}`} />
+          <button key={idx} aria-label={`Slide ${idx + 1}`} onClick={() => setI(idx)} className={`h-1.5 rounded-full transition-all duration-500 ${idx === i ? "w-10 bg-brand-orange" : "w-4 bg-white/40 hover:bg-white/60"}`} />
         ))}
       </div>
     </section>
