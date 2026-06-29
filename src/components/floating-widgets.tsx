@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, Loader2 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { useServerFn } from "@tanstack/react-start";
 import { sendChatMessage } from "@/lib/chat.functions";
 import { Button } from "@/components/ui/button";
@@ -92,7 +94,13 @@ export function FloatingWidgets() {
                       : "bg-background border border-border text-foreground rounded-bl-sm"
                   }`}
                 >
-                  {m.content}
+                  {m.role === "user" ? (
+                    m.content
+                  ) : (
+                    <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-1.5 prose-ul:my-1.5 prose-ol:my-1.5 prose-li:my-0.5 prose-headings:my-2 prose-headings:font-semibold prose-strong:text-foreground prose-a:text-primary">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
