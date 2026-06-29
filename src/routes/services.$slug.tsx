@@ -1,152 +1,16 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import {
-  ArrowRight, CheckCircle2, Phone, Briefcase, Handshake, HeartPulse, Landmark, Scale,
-} from "lucide-react";
+import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import heroLoans from "@/assets/hero-loans.jpg";
-import heroFunding from "@/assets/hero-funding.jpg";
-import heroSubsidies from "@/assets/hero-subsidies.jpg";
-import heroHealth from "@/assets/hero-health.jpg";
-
-type Detail = {
-  slug: string;
-  icon: typeof Handshake;
-  title: string;
-  tagline: string;
-  description: string;
-  hero: string;
-  bullets: string[];
-  offerings: { t: string; d: string }[];
-  process: string[];
-  faqs: { q: string; a: string }[];
-};
-
-const details: Record<string, Detail> = {
-  "loans-consultancy": {
-    slug: "loans-consultancy",
-    icon: Handshake,
-    title: "Loans Consultancy",
-    tagline: "Lock your dreams with the right loan, guided by experts.",
-    description:
-      "From home loans to business loans, we help you choose the right product, the right tenure and the right lender — backed by 40+ years of advisory experience and relationships with 50+ banks & NBFCs.",
-    hero: heroLoans,
-    bullets: ["Home, Business, Personal & Loan Against Property", "Negotiated rates with 50+ lenders", "End-to-end documentation & disbursement support", "Balance transfer & top-up optimisation"],
-    offerings: [
-      { t: "Home Loan", d: "Build, buy or refinance with the most efficient EMI structure." },
-      { t: "Business Loan", d: "Working capital, machinery and term loans for MSMEs." },
-      { t: "Personal Loan", d: "Quick, unsecured funds for life's important moments." },
-      { t: "Loan Against Property", d: "Unlock liquidity from owned commercial or residential property." },
-      { t: "Balance Transfer", d: "Move high-interest loans to better rates and shorter tenures." },
-      { t: "Education Loan", d: "Fund higher education in India or abroad with right structuring." },
-    ],
-    process: ["Profile & goal assessment", "Lender shortlisting & rate negotiation", "Documentation & application", "Sanction, disbursement & post-loan review"],
-    faqs: [
-      { q: "How long does loan approval take?", a: "Most personal and business loans get sanctioned within 3–7 working days when documentation is in order." },
-      { q: "Do you charge for consultancy?", a: "Initial consultation and profile assessment are free. Our fee structure is transparent and shared upfront." },
-    ],
-  },
-  "project-funding": {
-    slug: "project-funding",
-    icon: Briefcase,
-    title: "Project Funding",
-    tagline: "Turn big dreams into funded reality — the smarter way.",
-    description:
-      "From resorts to hospitals, manufacturing units to renewable energy projects — we structure the right blend of term loans, working capital, subsidies and equity to fund growth without draining cash.",
-    hero: heroFunding,
-    bullets: ["Detailed project report (DPR) preparation", "Term loan & working capital structuring", "Equity-debt blend planning", "Subsidy stacking for project cost reduction"],
-    offerings: [
-      { t: "Hospitality & Resorts", d: "Greenfield and expansion funding with sectoral subsidies." },
-      { t: "Healthcare & Hospitals", d: "Equipment, infra and OT setup financing." },
-      { t: "Manufacturing & MSME", d: "Plant, machinery and working capital with PMEGP, CGTMSE etc." },
-      { t: "Renewable Energy", d: "Solar, biomass and clean-tech project finance." },
-      { t: "Education & Schools", d: "Land, building and lab infrastructure financing." },
-      { t: "Commercial Real Estate", d: "Construction finance and lease-rental discounting." },
-    ],
-    process: ["Project feasibility & DPR", "Capital stack design (debt-equity-subsidy)", "Lender & investor pitch", "Disbursement & milestone monitoring"],
-    faqs: [
-      { q: "What's the minimum project size you handle?", a: "We typically work on projects from ₹1 Cr to ₹500 Cr+ across sectors." },
-      { q: "Do you help with subsidies along with funding?", a: "Yes — we stack applicable central & state subsidies with project funding to reduce effective project cost." },
-    ],
-  },
-  "government-subsidies": {
-    slug: "government-subsidies",
-    icon: Landmark,
-    title: "Government Subsidies & Benefits",
-    tagline: "Turn government policies into your growth partner.",
-    description:
-      "Most entrepreneurs leave money on the table. We identify, apply for and follow through on every central and state subsidy your project qualifies for — from CLCSS and PMEGP to RIPS and sectoral schemes.",
-    hero: heroSubsidies,
-    bullets: ["Scheme mapping for your project", "Application drafting & submission", "Departmental follow-up & disbursement", "Compliance, renewal & audit support"],
-    offerings: [
-      { t: "MSME Schemes", d: "PMEGP, CGTMSE, CLCSS, ZED and more." },
-      { t: "State Industrial Policies", d: "RIPS (Rajasthan), Gujarat IP, MP IP — full benefit cycles." },
-      { t: "Sector-Specific Subsidies", d: "Textile, food processing, tourism, electronics, EV." },
-      { t: "Capital Subsidy", d: "Direct subsidy on plant & machinery investments." },
-      { t: "Interest Subvention", d: "Reduced effective interest cost on term loans." },
-      { t: "SGST & Stamp Duty Reimbursement", d: "Cash-back style benefits over 7–10 years." },
-    ],
-    process: ["Eligibility audit", "Scheme stacking strategy", "Application & documentation", "Disbursement tracking & compliance"],
-    faqs: [
-      { q: "Can I claim multiple subsidies?", a: "Yes — central and state schemes can often be stacked. We identify the optimal combination for your project." },
-      { q: "How long does subsidy disbursement take?", a: "Depending on the scheme, anywhere from 3 months to 18 months. We handle the follow-up." },
-    ],
-  },
-  "financial-health-checkup": {
-    slug: "financial-health-checkup",
-    icon: HeartPulse,
-    title: "Financial Health Checkup",
-    tagline: "Take control of your financial future today.",
-    description:
-      "A structured, 360° review of your income, EMIs, savings, insurance, taxes and investments — followed by an actionable, goal-based roadmap that helps your money work as hard as you do.",
-    hero: heroHealth,
-    bullets: ["EMI & debt optimisation audit", "Cashflow and savings rate analysis", "Goal-based investment roadmap", "Insurance and tax efficiency review"],
-    offerings: [
-      { t: "EMI Optimisation", d: "Identify lakhs in interest savings with smarter tenure & balance transfers." },
-      { t: "Cashflow Audit", d: "Where your money actually goes — and where it should." },
-      { t: "Goal Planning", d: "Retirement, child's education, home, freedom — mapped to a number." },
-      { t: "Insurance Gap Analysis", d: "Right cover, right product, right premium." },
-      { t: "Tax Efficiency Review", d: "Make every rupee work harder under the current regime." },
-      { t: "Quarterly Reviews", d: "Stay on track as life and markets change." },
-    ],
-    process: ["Information collection (digital)", "Diagnostic report", "1:1 advisor walkthrough", "Implementation & periodic reviews"],
-    faqs: [
-      { q: "Is the checkup digital or in-person?", a: "Both. Most clients prefer a digital intake + video advisor session." },
-      { q: "Do you sell financial products?", a: "Our advice is product-agnostic. We recommend what fits — you choose where to execute." },
-    ],
-  },
-  "labour-law-consultancy": {
-    slug: "labour-law-consultancy",
-    icon: Scale,
-    title: "Labour Law Consultancy",
-    tagline: "Ensure compliance and protect your workforce.",
-    description:
-      "End-to-end labour-law compliance for MSMEs and growth-stage businesses — registrations, audits, inspections, payroll statutory and policy drafting, so you stay focused on running the business.",
-    hero: heroFunding,
-    bullets: ["PF, ESIC & Shops-Act registrations", "Audit and inspection representation", "Policy drafting & HR compliance training", "Monthly statutory return filings"],
-    offerings: [
-      { t: "Registrations", d: "PF, ESIC, PT, LIN, Shops-Act setup." },
-      { t: "Audits & Inspections", d: "End-to-end support during labour department audits." },
-      { t: "Policy Drafting", d: "POSH, leave, attendance, disciplinary and HR manuals." },
-      { t: "Payroll Statutory", d: "Monthly PF/ESIC/PT returns and reconciliation." },
-      { t: "Contract Labour", d: "CLRA registration, license and compliance." },
-      { t: "Training", d: "Statutory & POSH training for HR teams and managers." },
-    ],
-    process: ["Compliance health-check", "Gap report & roadmap", "Registrations & filings", "Ongoing monthly compliance"],
-    faqs: [
-      { q: "Do you work with startups?", a: "Yes — from first hire to 500+ headcount, we structure compliance to match your stage." },
-      { q: "Can you represent us in inspections?", a: "Yes, our consultants represent clients during inspections and audits across jurisdictions." },
-    ],
-  },
-};
+import { services } from "@/lib/services-data";
 
 export const Route = createFileRoute("/services/$slug")({
   loader: ({ params }) => {
-    const d = details[params.slug];
+    const d = services[params.slug];
     if (!d) throw notFound();
     return { slug: params.slug };
   },
   head: ({ params }) => {
-    const d = params?.slug ? details[params.slug] : undefined;
+    const d = params?.slug ? services[params.slug] : undefined;
     if (!d) return { meta: [{ title: "Service — Aamod Finserv" }] };
     const desc = `${d.tagline} ${d.description}`.slice(0, 158);
     const url = `/services/${d.slug}`;
@@ -191,7 +55,7 @@ export const Route = createFileRoute("/services/$slug")({
 
 function ServiceDetail() {
   const { slug } = Route.useLoaderData();
-  const d = details[slug];
+  const d = services[slug];
   if (!d) return null;
   const Icon = d.icon;
   return (
@@ -249,13 +113,32 @@ function ServiceDetail() {
 
       <section className="bg-secondary/40 py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display text-3xl font-bold text-foreground">What we cover</h2>
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Explore</div>
+              <h2 className="mt-1 font-display text-3xl font-bold text-foreground">What we cover</h2>
+              <p className="mt-2 max-w-2xl text-muted-foreground">Tap any tile to open a dedicated detail page with features, eligibility, documents and how-to-apply.</p>
+            </div>
+          </div>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {d.offerings.map((o) => (
-              <div key={o.t} className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition hover:-translate-y-0.5 hover:border-brand-orange/40">
-                <h3 className="font-display text-base font-semibold text-foreground">{o.t}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{o.d}</p>
-              </div>
+            {d.offerings.map((o, i) => (
+              <Link
+                key={o.slug}
+                to="/services/$slug/$productSlug"
+                params={{ slug: d.slug, productSlug: o.slug }}
+                className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition hover:-translate-y-1 hover:border-brand-orange/60 hover:shadow-lg"
+                style={{ animationDelay: `${i * 60}ms` }}
+              >
+                <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-brand-orange/10 transition-transform duration-500 group-hover:scale-150" />
+                <div className="relative">
+                  <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary">0{i + 1}</div>
+                  <h3 className="mt-2 font-display text-lg font-semibold text-foreground group-hover:text-brand-orange transition">{o.t}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{o.d}</p>
+                  <div className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-orange">
+                    View details <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </div>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

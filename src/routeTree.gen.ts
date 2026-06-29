@@ -18,6 +18,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as ServicesSlugProductSlugRouteImport } from './routes/services.$slug.$productSlug'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -64,6 +65,11 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ServicesRoute,
 } as any)
+const ServicesSlugProductSlugRoute = ServicesSlugProductSlugRouteImport.update({
+  id: '/$productSlug',
+  path: '/$productSlug',
+  getParentRoute: () => ServicesSlugRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -73,8 +79,9 @@ export interface FileRoutesByFullPath {
   '/partners': typeof PartnersRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/services/$slug': typeof ServicesSlugRoute
+  '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/services/': typeof ServicesIndexRoute
+  '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -83,8 +90,9 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/services/$slug': typeof ServicesSlugRoute
+  '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/services': typeof ServicesIndexRoute
+  '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -95,8 +103,9 @@ export interface FileRoutesById {
   '/partners': typeof PartnersRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/services/$slug': typeof ServicesSlugRoute
+  '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/services/': typeof ServicesIndexRoute
+  '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -110,6 +119,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/services/$slug'
     | '/services/'
+    | '/services/$slug/$productSlug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -120,6 +130,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/services/$slug'
     | '/services'
+    | '/services/$slug/$productSlug'
   id:
     | '__root__'
     | '/'
@@ -131,6 +142,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/services/$slug'
     | '/services/'
+    | '/services/$slug/$productSlug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -208,16 +220,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/services/$slug/$productSlug': {
+      id: '/services/$slug/$productSlug'
+      path: '/$productSlug'
+      fullPath: '/services/$slug/$productSlug'
+      preLoaderRoute: typeof ServicesSlugProductSlugRouteImport
+      parentRoute: typeof ServicesSlugRoute
+    }
   }
 }
 
+interface ServicesSlugRouteChildren {
+  ServicesSlugProductSlugRoute: typeof ServicesSlugProductSlugRoute
+}
+
+const ServicesSlugRouteChildren: ServicesSlugRouteChildren = {
+  ServicesSlugProductSlugRoute: ServicesSlugProductSlugRoute,
+}
+
+const ServicesSlugRouteWithChildren = ServicesSlugRoute._addFileChildren(
+  ServicesSlugRouteChildren,
+)
+
 interface ServicesRouteChildren {
-  ServicesSlugRoute: typeof ServicesSlugRoute
+  ServicesSlugRoute: typeof ServicesSlugRouteWithChildren
   ServicesIndexRoute: typeof ServicesIndexRoute
 }
 
 const ServicesRouteChildren: ServicesRouteChildren = {
-  ServicesSlugRoute: ServicesSlugRoute,
+  ServicesSlugRoute: ServicesSlugRouteWithChildren,
   ServicesIndexRoute: ServicesIndexRoute,
 }
 
