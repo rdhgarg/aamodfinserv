@@ -66,28 +66,32 @@ const slides = [
   {
     img: heroLoans,
     eyebrow: "Loan Strategy",
-    title: "Your EMIs Could Be Costing You Lakhs.",
+    title: "Your EMIs Could Be Costing You",
+    highlight: "Lakhs.",
     sub: "Smarter loan strategies = less interest, more freedom.",
     cta: "/services/financial-health-checkup",
   },
   {
     img: heroSubsidies,
     eyebrow: "Government Subsidies",
-    title: "Turn Government Policies Into Your Growth Partner.",
+    title: "Turn Government Policies Into Your",
+    highlight: "Growth Partner.",
     sub: "Fuel expansion with incentives designed for entrepreneurs like you.",
     cta: "/services/government-subsidies",
   },
   {
     img: heroFunding,
     eyebrow: "Project Funding",
-    title: "Turn Big Dreams Into Funded Reality — The Smarter Way.",
+    title: "Turn Big Dreams Into Funded Reality —",
+    highlight: "The Smarter Way.",
     sub: "From resorts to hospitals, unlock strategic funding, subsidies & growth without cash drain.",
     cta: "/services/project-funding",
   },
   {
     img: heroHealth,
     eyebrow: "Wealth Planning",
-    title: "You Work for Money. Is Your Money Working for You?",
+    title: "You Work for Money. Is Your Money",
+    highlight: "Working for You?",
     sub: "Turn income & savings into wealth with smart goal-based planning.",
     cta: "/services/financial-health-checkup",
   },
@@ -437,10 +441,16 @@ function HeroSlider() {
                     </span>
                     {s.eyebrow}
                   </span>
-                  <h1 className="mt-5 animate-fade-in-up font-display text-4xl font-extrabold leading-[1.05] tracking-tight delay-100 sm:text-5xl lg:text-6xl">
-                    {s.title}
+                  <h1 className="mt-5 animate-fade-in-up font-display text-5xl font-black leading-[1.02] tracking-tight text-white [text-shadow:0_2px_30px_rgba(0,0,0,0.45)] delay-100 sm:text-6xl lg:text-7xl">
+                    <span className="block">{s.title}</span>
+                    <span className="relative mt-2 inline-block bg-gradient-to-r from-brand-orange via-amber-300 to-brand-orange bg-[length:200%_100%] bg-clip-text text-transparent animate-shine">
+                      {s.highlight}
+                      <svg aria-hidden viewBox="0 0 300 12" className="absolute -bottom-2 left-0 h-2 w-full text-brand-orange" preserveAspectRatio="none">
+                        <path d="M2 8 Q 75 2, 150 6 T 298 5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.9" />
+                      </svg>
+                    </span>
                   </h1>
-                  <p className="mt-5 max-w-xl animate-fade-in-up text-lg text-white/80 delay-200">{s.sub}</p>
+                  <p className="mt-7 max-w-xl animate-fade-in-up text-lg leading-relaxed text-white/85 delay-200 sm:text-xl">{s.sub}</p>
                   <div className="mt-8 flex animate-fade-in-up flex-wrap gap-3 delay-300">
                     <Button size="lg" asChild className="bg-brand-orange text-white shadow-xl shadow-brand-orange/30 transition hover:-translate-y-0.5 hover:bg-brand-orange/90">
                       <Link to={s.cta}>Learn More <ArrowRight className="ml-1 h-4 w-4" /></Link>

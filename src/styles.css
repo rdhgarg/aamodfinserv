@@ -172,6 +172,10 @@
   0%, 100% { opacity: 0.5; transform: scale(1); }
   50% { opacity: 0.9; transform: scale(1.08); }
 }
+@keyframes shine {
+  0% { background-position: 200% 50%; }
+  100% { background-position: -200% 50%; }
+}
 
 @utility animate-fade-in-up {
   animation: fade-in-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -184,6 +188,9 @@
 }
 @utility animate-shimmer-pulse {
   animation: shimmer-pulse 4s ease-in-out infinite;
+}
+@utility animate-shine {
+  animation: shine 6s linear infinite;
 }
 @utility delay-100 { animation-delay: 0.1s; }
 @utility delay-200 { animation-delay: 0.2s; }
