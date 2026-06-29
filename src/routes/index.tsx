@@ -445,15 +445,8 @@ function HeroSlider() {
                     <span className="block">{s.title}</span>
                     <span className="relative mt-2 inline-block bg-gradient-to-r from-brand-orange via-amber-300 to-brand-orange bg-[length:200%_100%] bg-clip-text text-transparent animate-shine">
                       {s.highlight}
-                      <svg aria-hidden viewBox="0 0 300 12" className="absolute -bottom-2 left-0 h-2 w-full" preserveAspectRatio="none">
-                        <path d="M2 8 Q 75 2, 150 6 T 298 5" fill="none" stroke="url(#heroUnderline)" strokeWidth="3" strokeLinecap="round" />
-                        <defs>
-                          <linearGradient id="heroUnderline" x1="0" x2="1">
-                            <stop offset="0%" stopColor="hsl(var(--brand-orange))" stopOpacity="0" />
-                            <stop offset="50%" stopColor="hsl(var(--brand-orange))" />
-                            <stop offset="100%" stopColor="hsl(var(--brand-orange))" stopOpacity="0" />
-                          </linearGradient>
-                        </defs>
+                      <svg aria-hidden viewBox="0 0 300 12" className="absolute -bottom-2 left-0 h-2 w-full text-brand-orange" preserveAspectRatio="none">
+                        <path d="M2 8 Q 75 2, 150 6 T 298 5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.9" />
                       </svg>
                     </span>
                   </h1>
