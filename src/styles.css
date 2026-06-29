@@ -154,3 +154,49 @@
     color: var(--color-foreground);
   }
 }
+
+/* Premium home animations */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes shimmer-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.08); }
+}
+
+@utility animate-fade-in-up {
+  animation: fade-in-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@utility animate-float-soft {
+  animation: float-soft 6s ease-in-out infinite;
+}
+@utility animate-marquee {
+  animation: marquee 38s linear infinite;
+}
+@utility animate-shimmer-pulse {
+  animation: shimmer-pulse 4s ease-in-out infinite;
+}
+@utility delay-100 { animation-delay: 0.1s; }
+@utility delay-200 { animation-delay: 0.2s; }
+@utility delay-300 { animation-delay: 0.3s; }
+@utility delay-500 { animation-delay: 0.5s; }
+
+/* Scroll-reveal: elements start hidden, become visible when .is-visible toggled */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
