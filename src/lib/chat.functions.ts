@@ -74,19 +74,20 @@ Strategic note: VYUPY can be combined with project finance and other Rajasthan i
 export const sendChatMessage = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => InputSchema.parse(data))
   .handler(async ({ data }) => {
-    const apiKey = process.env.LOVABLE_API_KEY;
+    const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
       return { reply: "Chat is temporarily unavailable. Please call +91 97840 09748." };
     }
 
-    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const res = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Lovable-API-Key": apiKey,
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "gpt-4o-mini",
+        temperature: 0.4,
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           ...data.messages,
@@ -98,7 +99,7 @@ export const sendChatMessage = createServerFn({ method: "POST" })
       if (res.status === 429) {
         return { reply: "We're getting a lot of requests right now. Please try again in a moment, or call +91 97840 09748." };
       }
-      if (res.status === 402) {
+      if (res.status === 402 || res.status === 401) {
         return { reply: "Chat is temporarily unavailable. Please reach us at +91 97840 09748 or admin1@aamodfinserv.com." };
       }
       return { reply: "Sorry, I couldn't process that. Please try again or call +91 97840 09748." };
