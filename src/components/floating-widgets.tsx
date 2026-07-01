@@ -6,7 +6,12 @@ import { useServerFn } from "@tanstack/react-start";
 import { sendChatMessage } from "@/lib/chat.functions";
 import { Button } from "@/components/ui/button";
 
-type Msg = { role: "user" | "assistant"; content: string };
+type Msg = {
+  role: "user" | "assistant";
+  content: string;
+  citations?: string[];
+  confidence?: number;
+};
 
 const WA_NUMBER = "919784009748";
 const WA_TEXT = encodeURIComponent(
@@ -48,7 +53,15 @@ export function FloatingWidgets() {
       const res = await send({
         data: { messages: next.slice(-12) },
       });
-      setMessages((m) => [...m, { role: "assistant", content: res.reply }]);
+      setMessages((m) => [
+        ...m,
+        {
+          role: "assistant",
+          content: res.reply,
+          citations: res.citations ?? [],
+          confidence: typeof res.confidence === "number" ? res.confidence : undefined,
+        },
+      ]);
     } catch {
       setMessages((m) => [
         ...m,
@@ -97,9 +110,46 @@ export function FloatingWidgets() {
                   {m.role === "user" ? (
                     m.content
                   ) : (
-                    <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-1.5 prose-ul:my-1.5 prose-ol:my-1.5 prose-li:my-0.5 prose-headings:my-2 prose-headings:font-semibold prose-strong:text-foreground prose-a:text-primary">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>
-                    </div>
+                    <>
+                      <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-1.5 prose-ul:my-1.5 prose-ol:my-1.5 prose-li:my-0.5 prose-headings:my-2 prose-headings:font-semibold prose-strong:text-foreground prose-a:text-primary">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>
+                      </div>
+                      {(m.citations?.length || typeof m.confidence === "number") && (
+                        <div className="mt-2 border-t border-border/60 pt-2 space-y-1.5">
+                          {m.citations && m.citations.length > 0 && (
+                            <div className="flex flex-wrap gap-1">
+                              {m.citations.map((c, ci) => (
+                                <span
+                                  key={ci}
+                                  className="inline-block rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground"
+                                  title="Source used by the assistant"
+                                >
+                                  {c}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          {typeof m.confidence === "number" && (
+                            <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+                              <span>Confidence</span>
+                              <div className="h-1 flex-1 overflow-hidden rounded-full bg-muted">
+                                <div
+                                  className={`h-full rounded-full ${
+                                    m.confidence >= 0.75
+                                      ? "bg-green-500"
+                                      : m.confidence >= 0.45
+                                        ? "bg-amber-500"
+                                        : "bg-red-500"
+                                  }`}
+                                  style={{ width: `${Math.round(m.confidence * 100)}%` }}
+                                />
+                              </div>
+                              <span className="tabular-nums">{Math.round(m.confidence * 100)}%</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>

@@ -69,46 +69,119 @@ Restrictions: Not eligible if applicant is a bank defaulter/NPA, or the enterpri
 
 Example: ₹80 lakh packaging unit → Bank loan ₹72L, own ₹8L, interest subsidy up to 8%, margin money subsidy up to ₹5L — materially improves project viability.
 
-Strategic note: VYUPY can be combined with project finance and other Rajasthan incentives (incl. RIPS 2024), but the structure must avoid subsidy overlap. Aamod Finserv helps design the optimal mix.`;
+Strategic note: VYUPY can be combined with project finance and other Rajasthan incentives (incl. RIPS 2024), but the structure must avoid subsidy overlap. Aamod Finserv helps design the optimal mix.
+
+RESPONSE FORMAT (STRICT):
+You MUST respond ONLY with a valid JSON object (no markdown fences, no prose outside JSON) with this shape:
+{
+  "reply": string,           // the user-facing answer in plain text / light markdown (bullets, bold ok; no headings)
+  "citations": string[],     // 0-5 short source labels you actually used, e.g. "RIPS 2024 – MSME Benefits", "VYUPY 2025 – Interest Subsidy", "Aamod Finserv – Contact". Empty array if none used.
+  "confidence": number       // 0.0-1.0 self-assessed confidence. Use >=0.85 only when the answer is directly grounded in the Knowledge Base above or Contact details. Use 0.4-0.7 for general guidance. Use <=0.3 if you had to guess or the user needs to contact Aamod for specifics.
+}
+Never invent citations. Only cite sections that exist in this system prompt.`;
+
+const ReplySchema = z.object({
+  reply: z.string().min(1).max(4000),
+  citations: z.array(z.string().max(120)).max(8).default([]),
+  confidence: z.number().min(0).max(1).default(0.5),
+});
+
+export type ChatReply = z.infer<typeof ReplySchema>;
 
 export const sendChatMessage = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => InputSchema.parse(data))
   .handler(async ({ data }) => {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-      return { reply: "Chat is temporarily unavailable. Please call +91 97840 09748." };
-    }
+    const openaiKey = process.env.OPENAI_API_KEY;
+    const lovableKey = process.env.LOVABLE_API_KEY;
+    const messages = [
+      { role: "system" as const, content: SYSTEM_PROMPT },
+      ...data.messages,
+    ];
 
-    const res = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
+    const providers: Array<{
+      name: "openai" | "lovable";
+      url: string;
+      headers: Record<string, string>;
+      model: string;
+      key?: string;
+    }> = [];
+    if (openaiKey) {
+      providers.push({
+        name: "openai",
+        url: "https://api.openai.com/v1/chat/completions",
+        headers: { Authorization: `Bearer ${openaiKey}` },
         model: "gpt-4o-mini",
-        temperature: 0.4,
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          ...data.messages,
-        ],
-      }),
-    });
-
-    if (!res.ok) {
-      if (res.status === 429) {
-        return { reply: "We're getting a lot of requests right now. Please try again in a moment, or call +91 97840 09748." };
-      }
-      if (res.status === 402 || res.status === 401) {
-        return { reply: "Chat is temporarily unavailable. Please reach us at +91 97840 09748 or admin1@aamodfinserv.com." };
-      }
-      return { reply: "Sorry, I couldn't process that. Please try again or call +91 97840 09748." };
+        key: openaiKey,
+      });
+    }
+    if (lovableKey) {
+      providers.push({
+        name: "lovable",
+        url: "https://ai.gateway.lovable.dev/v1/chat/completions",
+        headers: { "Lovable-API-Key": lovableKey },
+        model: "google/gemini-2.5-flash",
+        key: lovableKey,
+      });
     }
 
-    const json = (await res.json()) as {
-      choices?: Array<{ message?: { content?: string } }>;
-    };
-    const reply = json.choices?.[0]?.message?.content?.trim() ||
-      "I'm here to help. Could you rephrase that?";
-    return { reply };
+    if (providers.length === 0) {
+      return {
+        reply: "Chat is temporarily unavailable. Please call +91 97840 09748.",
+        citations: [] as string[],
+        confidence: 0,
+      };
+    }
+
+    let raw = "";
+    let lastErr = "";
+    for (const p of providers) {
+      const res = await fetch(p.url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...p.headers,
+        },
+        body: JSON.stringify({
+          model: p.model,
+          temperature: 0.4,
+          response_format: { type: "json_object" },
+          messages,
+        }),
+      });
+      if (res.ok) {
+        const json = (await res.json()) as {
+          choices?: Array<{ message?: { content?: string } }>;
+        };
+        raw = json.choices?.[0]?.message?.content?.trim() ?? "";
+        break;
+      }
+      // Fall through to next provider on 401/402/429 (quota, auth, rate)
+      lastErr = `${p.name}:${res.status}`;
+      if (![401, 402, 429, 500, 502, 503].includes(res.status)) {
+        // hard error — no point trying next
+        break;
+      }
+    }
+
+    if (!raw) {
+      const isRate = lastErr.includes("429");
+      return {
+        reply: isRate
+          ? "We're getting a lot of requests right now. Please try again in a moment, or call +91 97840 09748."
+          : "Chat is temporarily unavailable. Please reach us at +91 97840 09748 or admin1@aamodfinserv.com.",
+        citations: [] as string[],
+        confidence: 0,
+      };
+    }
+
+    try {
+      const parsed = ReplySchema.parse(JSON.parse(raw));
+      return parsed;
+    } catch {
+      return {
+        reply: raw || "I'm here to help. Could you rephrase that?",
+        citations: [],
+        confidence: 0.3,
+      };
+    }
   });
