@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SubsidiesRouteImport } from './routes/subsidies'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as PartnersRouteImport } from './routes/partners'
@@ -20,6 +21,11 @@ import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as ServicesSlugProductSlugRouteImport } from './routes/services.$slug.$productSlug'
 
+const SubsidiesRoute = SubsidiesRouteImport.update({
+  id: '/subsidies',
+  path: '/subsidies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -79,6 +85,7 @@ export interface FileRoutesByFullPath {
   '/partners': typeof PartnersRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/subsidies': typeof SubsidiesRoute
   '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/services/': typeof ServicesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
@@ -90,6 +97,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/subsidies': typeof SubsidiesRoute
   '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/services': typeof ServicesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/partners': typeof PartnersRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/subsidies': typeof SubsidiesRoute
   '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/services/': typeof ServicesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/partners'
     | '/services'
     | '/sitemap.xml'
+    | '/subsidies'
     | '/services/$slug'
     | '/services/'
     | '/services/$slug/$productSlug'
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/partners'
     | '/sitemap.xml'
+    | '/subsidies'
     | '/services/$slug'
     | '/services'
     | '/services/$slug/$productSlug'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/partners'
     | '/services'
     | '/sitemap.xml'
+    | '/subsidies'
     | '/services/$slug'
     | '/services/'
     | '/services/$slug/$productSlug'
@@ -153,10 +165,18 @@ export interface RootRouteChildren {
   PartnersRoute: typeof PartnersRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SubsidiesRoute: typeof SubsidiesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/subsidies': {
+      id: '/subsidies'
+      path: '/subsidies'
+      fullPath: '/subsidies'
+      preLoaderRoute: typeof SubsidiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -264,6 +284,7 @@ const rootRouteChildren: RootRouteChildren = {
   PartnersRoute: PartnersRoute,
   ServicesRoute: ServicesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SubsidiesRoute: SubsidiesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
