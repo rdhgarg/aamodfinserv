@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { subsidies } from "@/lib/subsidies-data";
+import { subsidies, type SubsidyDef } from "@/lib/subsidies-data";
 
 export const Route = createFileRoute("/subsidies/$slug")({
   loader: ({ params }) => {
@@ -60,7 +60,7 @@ export const Route = createFileRoute("/subsidies/$slug")({
 });
 
 function SubsidyDetail() {
-  const { subsidy: s } = Route.useLoaderData();
+  const { subsidy: s } = Route.useLoaderData() as { subsidy: SubsidyDef };
   return (
     <>
       {/* Hero */}
