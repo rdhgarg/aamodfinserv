@@ -6,10 +6,11 @@ import { useServerFn } from "@tanstack/react-start";
 import { sendChatMessage } from "@/lib/chat.functions";
 import { Button } from "@/components/ui/button";
 
+type Citation = { label: string; section: string };
 type Msg = {
   role: "user" | "assistant";
   content: string;
-  citations?: string[];
+  citations?: Citation[];
   confidence?: number;
 };
 
@@ -121,10 +122,12 @@ export function FloatingWidgets() {
                               {m.citations.map((c, ci) => (
                                 <span
                                   key={ci}
-                                  className="inline-block rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground"
-                                  title="Source used by the assistant"
+                                  className="inline-flex items-center gap-1 rounded-full border border-border bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground"
+                                  title={`${c.label} — ${c.section}`}
                                 >
-                                  {c}
+                                  <span className="font-semibold text-foreground">{c.label}</span>
+                                  <span className="opacity-60">•</span>
+                                  <span>{c.section}</span>
                                 </span>
                               ))}
                             </div>
