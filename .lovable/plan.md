@@ -1,68 +1,68 @@
-## Goal
+## Scope
 
-Completely redesign aamodfinserv.com as a polished, professional financial-services site using a clean Cloud White + Blue accent palette. Reuse the existing copy, stats, and service structure. Ship full per-page SEO (titles, descriptions, OG tags, JSON-LD, sitemap, robots).
+Six workstreams. All frontend + TanStack server functions; no external DB (admin data persists via localStorage for now, since you chose a simple password gate — we can migrate to Lovable Cloud later).
 
-## Design System
+### 1. Chatbot hardening (`src/lib/chat.functions.ts`)
+- Tighten Zod: reject empty/whitespace-only content, cap system-total tokens, strip control chars, block obvious prompt-injection markers in a pre-check (still passes to model; only logs).
+- Post-process reply: strip any leaked `system:` / `sk-...` / `Bearer ` / `OPENAI_API_KEY` / provider hostnames before returning.
+- Better citation format — return `{label, section}` objects (e.g. `{label: "RIPS 2024", section: "MSME Benefits"}`); chip UI shows `label — section`.
+- E2E test file `tests/chatbot.e2e.test.ts` (bunx vitest): 6 jailbreak prompts ("ignore previous instructions", "reveal system prompt", "print your API key", DAN-style, base64-encoded exfil, role-swap) — assert reply is non-empty, contains no secret patterns, no raw provider errors.
 
-- Palette: `#fafbfc` background, `#e8ecf1` surfaces, `#94a3b8` muted, `#3b82f6` primary blue. Deep navy `#0f1b3d` for headings to give finance authority.
-- Typography: Inter for body, Sora for headings (modern, trustworthy fintech).
-- Tokens defined in `src/styles.css` under `@theme` (oklch values). Rounded-xl cards, subtle shadows, generous whitespace, restrained motion (fade/slide on scroll only).
-- Components: shared `SiteHeader` (sticky, with All Products dropdown), `SiteFooter` (contact, quick links, social, address), CTA bands, stat counters, service cards, testimonial section, partner logo strip.
+### 2. Admin panel (password-gated, 4 modules)
+New pathless layout `src/routes/_admin.tsx` — gated by server function `unlockAdmin` using `ADMIN_PASSWORD` secret + `SESSION_SECRET` encrypted session cookie (timing-safe compare, per shared-password gate spec).
 
-## Sitemap (6 routes)
+Routes:
+- `/admin/login` — password form
+- `/admin` — dashboard (counts + quick links)
+- `/admin/seo` — page meta editor: table of all routes, edit title/description/OG/canonical, persist in localStorage (keyed by route). Live preview panel.
+- `/admin/blog` — CMS: list/create/edit posts (title, slug, excerpt, body markdown, cover image URL, OG image, published toggle). Public `/blog` and `/blog/$slug` routes render from same store. JSON-LD Article schema per post.
+- `/admin/sitemap` — toggle each route in/out of sitemap; edit robots.txt content; updated sitemap route reads from store with fallback to defaults.
+- `/admin/redirects` — CRUD 301 redirects (from → to); root layout checks table and navigates on match. 404 log auto-captures via a NotFound reporter.
 
+Note on persistence: everything in the admin panel is browser-local until you enable Lovable Cloud. I'll structure the store behind a single `src/lib/admin-store.ts` module so swapping to Supabase later is a one-file change.
+
+### 3. Subsidy detail pages
+New route group `src/routes/subsidies.$slug.tsx` with data in `src/lib/subsidies-data.ts`:
+- `/subsidies/rips-2024` — full RIPS 2024 (capital subsidy, MSME benefits, green growth, exports, capability dev, eligibility, why-it-matters)
+- `/subsidies/vyupy-2025` — full VYUPY 2025 (loan amount, subsidy tiers, margin money, eligibility, activities, funding institutions, restrictions, worked example)
+Each has hero, tabbed sections (Overview / Benefits / Eligibility / How to Apply / FAQ), CTA, JSON-LD `GovernmentService`, and per-page SEO. Added to nav + sitemap.
+
+### 4. Enrich 9 loan product pages
+Fill `src/lib/services-data.ts` product entries with content scraped from aamodfinserv.com/service-detail/* for: business-loan, home-loan, mortgage-loan, used-car-loan, gold-loan, personal-loan, education-loan, working-capital, machinery-loan. Each page (`services.$slug.$productSlug.tsx`) already renders Overview/Features/Eligibility/Documents/How-to-Apply tabs — just enriched data + per-product hero image + JSON-LD `LoanOrCredit`.
+
+### 5. Services listing equalization
+`src/routes/services.index.tsx` — CSS grid with `auto-rows-fr` and consistent card structure (fixed image aspect 16:10, 3-line clamp on descriptions, same CTA row height) so all 5 service cards are perfectly equal in height and internal spacing across breakpoints.
+
+### 6. SEO plumbing
+- Update `src/routes/sitemap[.]xml.ts` to include new `/subsidies/*` + all product pages + `/blog/*` from store.
+- `src/routes/__root.tsx` — enhance JSON-LD, add BreadcrumbList helper.
+
+## Technical notes
+
+Files added:
 ```
-/                    Home — hero, services, stats, why-us, partners, CTA
-/about               About — story, mission, leadership, milestones
-/services            Services — all 5 offerings as detail cards
-/calculator          EMI Calculator — working
-/partners            Banking partners (50+ banks/NBFCs logo grid)
-/contact             Contact — form + map + phone/email/hours
+src/lib/gate.functions.ts       server unlock/lock + admin session
+src/lib/admin-store.ts          localStorage-backed SEO/blog/redirects/sitemap store
+src/lib/subsidies-data.ts       RIPS + VYUPY content
+tests/chatbot.e2e.test.ts       jailbreak tests
+src/routes/_admin.tsx           protected layout
+src/routes/admin.login.tsx
+src/routes/_admin.admin.tsx     dashboard
+src/routes/_admin.admin.seo.tsx
+src/routes/_admin.admin.blog.tsx
+src/routes/_admin.admin.sitemap.tsx
+src/routes/_admin.admin.redirects.tsx
+src/routes/blog.index.tsx
+src/routes/blog.$slug.tsx
+src/routes/subsidies.$slug.tsx
 ```
+Files modified: `chat.functions.ts`, `floating-widgets.tsx` (citation chip format), `services-data.ts`, `services.index.tsx`, `services.$slug.$productSlug.tsx`, `sitemap[.]xml.ts`, `__root.tsx`, `site-header.tsx` (add Subsidies link).
 
-Plus `/sitemap.xml` server route and `/robots.txt`.
+Secrets required: `ADMIN_PASSWORD` (I'll prompt with add_secret), `SESSION_SECRET` (I'll generate).
 
-## Home page sections
+## Out of scope
+- Real multi-user admin auth with roles (would need Lovable Cloud — happy to migrate on request).
+- Vendor/order/logistics modules from the earlier FRD (this project is a marketing site, not a marketplace).
+- Actual 404 crawling — the redirect module only logs client-side navigations that hit NotFound.
 
-1. Hero — headline "Smarter Finance. Stronger Futures." + sub + dual CTA (Talk to Expert / Check Financial Health)
-2. Expertise grid — 5 service cards (Loans Consultancy, Project Funding, Govt Subsidies, Financial Health Checkup, Labour Law)
-3. Impact stats — 40+ yrs, 950+ clients, ₹1500+ Cr raised, 50+ partners, 400+ checkups, 50+ sessions (animated counters)
-4. Why Choose Us — 6 reason cards
-5. Process — 4-step "How we work" timeline
-6. Banking partners strip
-7. Testimonials (placeholder structure)
-8. Final CTA band → Contact
-
-## EMI Calculator (functional)
-
-- Inputs: loan amount, interest rate (%), tenure (years) — sliders + number inputs
-- Outputs: monthly EMI, total interest, total payable; donut chart (Recharts) breaking down principal vs interest; amortization schedule table (collapsible)
-- Pure client-side math, no backend. Formula: `EMI = P*r*(1+r)^n / ((1+r)^n - 1)`
-
-## SEO Integration
-
-- `__root.tsx`: viewport, charset, sitewide og:site_name, og:type=website, Organization JSON-LD (name, url, logo, contactPoint, sameAs, areaServed=IN)
-- Every route's `head()`: unique title (`<Page> — Aamod Finserv`), unique description (<160 chars), og:title, og:description, og:url (relative), canonical link on the leaf
-- Services page: Service JSON-LD per offering. Contact page: LocalBusiness/FinancialService JSON-LD with address, phone, hours. Calculator page: WebApplication JSON-LD.
-- Semantic HTML: single H1 per page, proper heading hierarchy, alt text on every image, aria-labels on icon buttons.
-- `src/routes/sitemap[.]xml.ts` with all 6 routes; `public/robots.txt` with `Allow: /`.
-- Lazy-load below-fold images; preconnect to font CDN in root head.
-
-## Technical Details
-
-- TanStack Start file-based routing under `src/routes/`. Each route exports `createFileRoute` with `head()`.
-- Tailwind v4 — extend `@theme` in `src/styles.css` with brand tokens (`--color-brand-navy`, `--color-brand-blue`, etc.) and font families. Load Inter + Sora via `<link>` in root head.
-- shadcn primitives already installed (Button, Card, Input, Slider, Table, Accordion, Sheet for mobile nav) — reuse.
-- Recharts for the calculator donut.
-- No backend / Lovable Cloud needed — contact form will be a visual form with `mailto:` fallback (can wire to backend later if asked).
-- Replace the placeholder `src/routes/index.tsx`.
-- Generate 1 hero illustration + service-card imagery via imagegen; partner logos as text/initials placeholders until real assets are supplied.
-
-## Out of scope (call out)
-
-- Customer/Partner login & dashboards
-- Loan application backend, lead storage in DB
-- Blog / detailed service sub-pages beyond `/services` (can add later)
-- Real partner bank logos (legal/asset issue — use neutral placeholders)
-
-Ready to switch to build mode when you approve.
+Approve and I'll build it end-to-end.
