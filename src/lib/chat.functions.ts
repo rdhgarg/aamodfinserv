@@ -191,7 +191,7 @@ export const sendChatMessage = createServerFn({ method: "POST" })
     if (providers.length === 0) {
       return {
         reply: "Chat is temporarily unavailable. Please call +91 97840 09748.",
-        citations: [] as string[],
+        citations: [] as Citation[],
         confidence: 0,
       };
     }
@@ -233,7 +233,7 @@ export const sendChatMessage = createServerFn({ method: "POST" })
         reply: isRate
           ? "We're getting a lot of requests right now. Please try again in a moment, or call +91 97840 09748."
           : "Chat is temporarily unavailable. Please reach us at +91 97840 09748 or admin1@aamodfinserv.com.",
-        citations: [] as string[],
+        citations: [] as Citation[],
         confidence: 0,
       };
     }
