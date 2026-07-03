@@ -17,6 +17,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SubsidiesIndexRouteImport } from './routes/subsidies.index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as ServicesSlugProductSlugRouteImport } from './routes/services.$slug.$productSlug'
@@ -61,6 +62,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SubsidiesIndexRoute = SubsidiesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SubsidiesRoute,
+} as any)
 const ServicesIndexRoute = ServicesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -85,9 +91,10 @@ export interface FileRoutesByFullPath {
   '/partners': typeof PartnersRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/subsidies': typeof SubsidiesRoute
+  '/subsidies': typeof SubsidiesRouteWithChildren
   '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/services/': typeof ServicesIndexRoute
+  '/subsidies/': typeof SubsidiesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
 }
 export interface FileRoutesByTo {
@@ -97,9 +104,9 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/subsidies': typeof SubsidiesRoute
   '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/services': typeof ServicesIndexRoute
+  '/subsidies': typeof SubsidiesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
 }
 export interface FileRoutesById {
@@ -111,9 +118,10 @@ export interface FileRoutesById {
   '/partners': typeof PartnersRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/subsidies': typeof SubsidiesRoute
+  '/subsidies': typeof SubsidiesRouteWithChildren
   '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/services/': typeof ServicesIndexRoute
+  '/subsidies/': typeof SubsidiesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
 }
 export interface FileRouteTypes {
@@ -129,6 +137,7 @@ export interface FileRouteTypes {
     | '/subsidies'
     | '/services/$slug'
     | '/services/'
+    | '/subsidies/'
     | '/services/$slug/$productSlug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -138,9 +147,9 @@ export interface FileRouteTypes {
     | '/contact'
     | '/partners'
     | '/sitemap.xml'
-    | '/subsidies'
     | '/services/$slug'
     | '/services'
+    | '/subsidies'
     | '/services/$slug/$productSlug'
   id:
     | '__root__'
@@ -154,6 +163,7 @@ export interface FileRouteTypes {
     | '/subsidies'
     | '/services/$slug'
     | '/services/'
+    | '/subsidies/'
     | '/services/$slug/$productSlug'
   fileRoutesById: FileRoutesById
 }
@@ -165,7 +175,7 @@ export interface RootRouteChildren {
   PartnersRoute: typeof PartnersRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  SubsidiesRoute: typeof SubsidiesRoute
+  SubsidiesRoute: typeof SubsidiesRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -226,6 +236,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/subsidies/': {
+      id: '/subsidies/'
+      path: '/'
+      fullPath: '/subsidies/'
+      preLoaderRoute: typeof SubsidiesIndexRouteImport
+      parentRoute: typeof SubsidiesRoute
+    }
     '/services/': {
       id: '/services/'
       path: '/'
@@ -276,6 +293,18 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
   ServicesRouteChildren,
 )
 
+interface SubsidiesRouteChildren {
+  SubsidiesIndexRoute: typeof SubsidiesIndexRoute
+}
+
+const SubsidiesRouteChildren: SubsidiesRouteChildren = {
+  SubsidiesIndexRoute: SubsidiesIndexRoute,
+}
+
+const SubsidiesRouteWithChildren = SubsidiesRoute._addFileChildren(
+  SubsidiesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -284,7 +313,7 @@ const rootRouteChildren: RootRouteChildren = {
   PartnersRoute: PartnersRoute,
   ServicesRoute: ServicesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  SubsidiesRoute: SubsidiesRoute,
+  SubsidiesRoute: SubsidiesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
