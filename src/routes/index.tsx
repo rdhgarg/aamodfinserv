@@ -13,9 +13,6 @@ import {
   Star,
   Instagram,
   TrendingUp,
-  Users,
-  Clock,
-  Landmark,
   CheckCircle2,
   Rocket,
   Globe,
@@ -26,9 +23,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { useReveal } from "@/hooks/use-reveal";
 import heroLoans from "@/assets/hero-loans.jpg";
-import heroFunding from "@/assets/hero-funding.jpg";
-import heroSubsidies from "@/assets/hero-subsidies.jpg";
-import heroHealth from "@/assets/hero-health.jpg";
 import svcLoans from "@/assets/svc-loans.jpg";
 import svcFunding from "@/assets/svc-funding.jpg";
 import svcSubsidies from "@/assets/svc-subsidies.jpg";
