@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
-  ChevronLeft,
-  ChevronRight,
   ShieldCheck,
   Sparkles,
   Wallet,
@@ -18,6 +16,12 @@ import {
   Users,
   Clock,
   Landmark,
+  CheckCircle2,
+  Rocket,
+  Globe,
+  Package,
+  Briefcase,
+  Download,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useReveal } from "@/hooks/use-reveal";
@@ -33,7 +37,6 @@ import svcLabour from "@/assets/svc-labour.jpg";
 import insightEmi from "@/assets/insight-emi.jpg";
 import insightMsme from "@/assets/insight-msme.jpg";
 import insightProject from "@/assets/insight-project.jpg";
-import insightHealth from "@/assets/insight-health.jpg";
 import aamodReel from "@/assets/aamod-reel.mp4.asset.json";
 import aamodReelPoster from "@/assets/aamod-reel-poster.jpg.asset.json";
 
