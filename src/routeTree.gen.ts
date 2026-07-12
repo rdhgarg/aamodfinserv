@@ -21,6 +21,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SubsidiesIndexRouteImport } from './routes/subsidies.index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SubsidiesSlugRouteImport } from './routes/subsidies.$slug'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as ServicesSlugProductSlugRouteImport } from './routes/services.$slug.$productSlug'
@@ -85,6 +86,11 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ServicesRoute,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const SubsidiesSlugRoute = SubsidiesSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -104,7 +110,7 @@ const ServicesSlugProductSlugRoute = ServicesSlugProductSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
@@ -114,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/subsidies': typeof SubsidiesRouteWithChildren
   '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/subsidies/$slug': typeof SubsidiesSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/subsidies/': typeof SubsidiesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
@@ -121,7 +128,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRoute
   '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
@@ -129,6 +135,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/subsidies/$slug': typeof SubsidiesSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/services': typeof ServicesIndexRoute
   '/subsidies': typeof SubsidiesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
@@ -137,7 +144,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
@@ -147,6 +154,7 @@ export interface FileRoutesById {
   '/subsidies': typeof SubsidiesRouteWithChildren
   '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/subsidies/$slug': typeof SubsidiesSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/subsidies/': typeof SubsidiesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
@@ -166,6 +174,7 @@ export interface FileRouteTypes {
     | '/subsidies'
     | '/services/$slug'
     | '/subsidies/$slug'
+    | '/admin/'
     | '/services/'
     | '/subsidies/'
     | '/services/$slug/$productSlug'
@@ -173,7 +182,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/admin'
     | '/calculator'
     | '/contact'
     | '/partners'
@@ -181,6 +189,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/services/$slug'
     | '/subsidies/$slug'
+    | '/admin'
     | '/services'
     | '/subsidies'
     | '/services/$slug/$productSlug'
@@ -198,6 +207,7 @@ export interface FileRouteTypes {
     | '/subsidies'
     | '/services/$slug'
     | '/subsidies/$slug'
+    | '/admin/'
     | '/services/'
     | '/subsidies/'
     | '/services/$slug/$productSlug'
@@ -206,7 +216,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  AdminRoute: typeof AdminRoute
+  AdminRoute: typeof AdminRouteWithChildren
   CalculatorRoute: typeof CalculatorRoute
   ContactRoute: typeof ContactRoute
   PartnersRoute: typeof PartnersRoute
@@ -302,6 +312,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesIndexRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/subsidies/$slug': {
       id: '/subsidies/$slug'
       path: '/$slug'
@@ -325,6 +342,16 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AdminRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface ServicesSlugRouteChildren {
   ServicesSlugProductSlugRoute: typeof ServicesSlugProductSlugRoute
@@ -369,7 +396,7 @@ const SubsidiesRouteWithChildren = SubsidiesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  AdminRoute: AdminRoute,
+  AdminRoute: AdminRouteWithChildren,
   CalculatorRoute: CalculatorRoute,
   ContactRoute: ContactRoute,
   PartnersRoute: PartnersRoute,
