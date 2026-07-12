@@ -85,13 +85,13 @@ function AdminLayout() {
     );
   }
 
-  const nav = [
+  const nav: { to: string; label: string; icon: typeof Search; exact?: boolean }[] = [
     { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
     { to: "/admin/seo", label: "SEO Meta", icon: Search },
     { to: "/admin/content", label: "Content", icon: FileText },
     { to: "/admin/robots", label: "Robots.txt", icon: Bot },
     { to: "/admin/sitemap", label: "Sitemap", icon: MapPinned },
-  ] as const;
+  ];
 
   return (
     <div className="flex min-h-screen bg-muted/20">
@@ -106,7 +106,7 @@ function AdminLayout() {
             return (
               <Link
                 key={n.to}
-                to={n.to}
+                to={n.to as "/admin"}
                 className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors ${
                   active ? "bg-primary/10 text-primary font-medium" : "text-muted-foreground hover:bg-muted"
                 }`}
