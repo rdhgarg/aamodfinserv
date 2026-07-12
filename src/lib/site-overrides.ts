@@ -11,7 +11,15 @@ export type SeoOverride = {
 
 export type ContentOverride = Record<string, unknown>;
 
-export type OverrideRow = { key: string; data: unknown };
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [k: string]: Json }
+  | Json[];
+
+export type OverrideRow = { key: string; data: Json };
 
 // Known SEO keys, keyed by route path. The admin panel edits these.
 export const SEO_KEYS: { key: string; path: string; label: string }[] = [
