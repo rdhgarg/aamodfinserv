@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SubsidiesRouteImport } from './routes/subsidies'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CalculatorRouteImport } from './routes/calculator'
@@ -36,6 +37,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PartnersRoute = PartnersRouteImport.update({
@@ -95,6 +101,7 @@ export interface FileRoutesByFullPath {
   '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subsidies': typeof SubsidiesRouteWithChildren
@@ -110,6 +117,7 @@ export interface FileRoutesByTo {
   '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/subsidies/$slug': typeof SubsidiesSlugRoute
@@ -124,6 +132,7 @@ export interface FileRoutesById {
   '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subsidies': typeof SubsidiesRouteWithChildren
@@ -141,6 +150,7 @@ export interface FileRouteTypes {
     | '/calculator'
     | '/contact'
     | '/partners'
+    | '/robots.txt'
     | '/services'
     | '/sitemap.xml'
     | '/subsidies'
@@ -156,6 +166,7 @@ export interface FileRouteTypes {
     | '/calculator'
     | '/contact'
     | '/partners'
+    | '/robots.txt'
     | '/sitemap.xml'
     | '/services/$slug'
     | '/subsidies/$slug'
@@ -169,6 +180,7 @@ export interface FileRouteTypes {
     | '/calculator'
     | '/contact'
     | '/partners'
+    | '/robots.txt'
     | '/services'
     | '/sitemap.xml'
     | '/subsidies'
@@ -185,6 +197,7 @@ export interface RootRouteChildren {
   CalculatorRoute: typeof CalculatorRoute
   ContactRoute: typeof ContactRoute
   PartnersRoute: typeof PartnersRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SubsidiesRoute: typeof SubsidiesRouteWithChildren
@@ -211,6 +224,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/partners': {
@@ -332,6 +352,7 @@ const rootRouteChildren: RootRouteChildren = {
   CalculatorRoute: CalculatorRoute,
   ContactRoute: ContactRoute,
   PartnersRoute: PartnersRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
   ServicesRoute: ServicesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SubsidiesRoute: SubsidiesRouteWithChildren,
