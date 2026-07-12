@@ -12,15 +12,22 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SubsidiesRouteImport } from './routes/subsidies'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CalculatorRouteImport } from './routes/calculator'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SubsidiesIndexRouteImport } from './routes/subsidies.index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SubsidiesSlugRouteImport } from './routes/subsidies.$slug'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as AdminSitemapRouteImport } from './routes/admin.sitemap'
+import { Route as AdminSeoRouteImport } from './routes/admin.seo'
+import { Route as AdminRobotsRouteImport } from './routes/admin.robots'
+import { Route as AdminContentRouteImport } from './routes/admin.content'
 import { Route as ServicesSlugProductSlugRouteImport } from './routes/services.$slug.$productSlug'
 
 const SubsidiesRoute = SubsidiesRouteImport.update({
@@ -38,6 +45,11 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PartnersRoute = PartnersRouteImport.update({
   id: '/partners',
   path: '/partners',
@@ -51,6 +63,11 @@ const ContactRoute = ContactRouteImport.update({
 const CalculatorRoute = CalculatorRouteImport.update({
   id: '/calculator',
   path: '/calculator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -73,6 +90,11 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ServicesRoute,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const SubsidiesSlugRoute = SubsidiesSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -83,6 +105,26 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ServicesRoute,
 } as any)
+const AdminSitemapRoute = AdminSitemapRouteImport.update({
+  id: '/sitemap',
+  path: '/sitemap',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSeoRoute = AdminSeoRouteImport.update({
+  id: '/seo',
+  path: '/seo',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminRobotsRoute = AdminRobotsRouteImport.update({
+  id: '/robots',
+  path: '/robots',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminContentRoute = AdminContentRouteImport.update({
+  id: '/content',
+  path: '/content',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ServicesSlugProductSlugRoute = ServicesSlugProductSlugRouteImport.update({
   id: '/$productSlug',
   path: '/$productSlug',
@@ -92,14 +134,21 @@ const ServicesSlugProductSlugRoute = ServicesSlugProductSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subsidies': typeof SubsidiesRouteWithChildren
+  '/admin/content': typeof AdminContentRoute
+  '/admin/robots': typeof AdminRobotsRoute
+  '/admin/seo': typeof AdminSeoRoute
+  '/admin/sitemap': typeof AdminSitemapRoute
   '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/subsidies/$slug': typeof SubsidiesSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/subsidies/': typeof SubsidiesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
@@ -110,9 +159,15 @@ export interface FileRoutesByTo {
   '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin/content': typeof AdminContentRoute
+  '/admin/robots': typeof AdminRobotsRoute
+  '/admin/seo': typeof AdminSeoRoute
+  '/admin/sitemap': typeof AdminSitemapRoute
   '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/subsidies/$slug': typeof SubsidiesSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/services': typeof ServicesIndexRoute
   '/subsidies': typeof SubsidiesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
@@ -121,14 +176,21 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subsidies': typeof SubsidiesRouteWithChildren
+  '/admin/content': typeof AdminContentRoute
+  '/admin/robots': typeof AdminRobotsRoute
+  '/admin/seo': typeof AdminSeoRoute
+  '/admin/sitemap': typeof AdminSitemapRoute
   '/services/$slug': typeof ServicesSlugRouteWithChildren
   '/subsidies/$slug': typeof SubsidiesSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/subsidies/': typeof SubsidiesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
@@ -138,14 +200,21 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/calculator'
     | '/contact'
     | '/partners'
+    | '/robots.txt'
     | '/services'
     | '/sitemap.xml'
     | '/subsidies'
+    | '/admin/content'
+    | '/admin/robots'
+    | '/admin/seo'
+    | '/admin/sitemap'
     | '/services/$slug'
     | '/subsidies/$slug'
+    | '/admin/'
     | '/services/'
     | '/subsidies/'
     | '/services/$slug/$productSlug'
@@ -156,9 +225,15 @@ export interface FileRouteTypes {
     | '/calculator'
     | '/contact'
     | '/partners'
+    | '/robots.txt'
     | '/sitemap.xml'
+    | '/admin/content'
+    | '/admin/robots'
+    | '/admin/seo'
+    | '/admin/sitemap'
     | '/services/$slug'
     | '/subsidies/$slug'
+    | '/admin'
     | '/services'
     | '/subsidies'
     | '/services/$slug/$productSlug'
@@ -166,14 +241,21 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/calculator'
     | '/contact'
     | '/partners'
+    | '/robots.txt'
     | '/services'
     | '/sitemap.xml'
     | '/subsidies'
+    | '/admin/content'
+    | '/admin/robots'
+    | '/admin/seo'
+    | '/admin/sitemap'
     | '/services/$slug'
     | '/subsidies/$slug'
+    | '/admin/'
     | '/services/'
     | '/subsidies/'
     | '/services/$slug/$productSlug'
@@ -182,9 +264,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   CalculatorRoute: typeof CalculatorRoute
   ContactRoute: typeof ContactRoute
   PartnersRoute: typeof PartnersRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SubsidiesRoute: typeof SubsidiesRouteWithChildren
@@ -213,6 +297,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/partners': {
       id: '/partners'
       path: '/partners'
@@ -232,6 +323,13 @@ declare module '@tanstack/react-router' {
       path: '/calculator'
       fullPath: '/calculator'
       preLoaderRoute: typeof CalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -262,6 +360,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesIndexRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/subsidies/$slug': {
       id: '/subsidies/$slug'
       path: '/$slug'
@@ -276,6 +381,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/admin/sitemap': {
+      id: '/admin/sitemap'
+      path: '/sitemap'
+      fullPath: '/admin/sitemap'
+      preLoaderRoute: typeof AdminSitemapRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/seo': {
+      id: '/admin/seo'
+      path: '/seo'
+      fullPath: '/admin/seo'
+      preLoaderRoute: typeof AdminSeoRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/robots': {
+      id: '/admin/robots'
+      path: '/robots'
+      fullPath: '/admin/robots'
+      preLoaderRoute: typeof AdminRobotsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/content': {
+      id: '/admin/content'
+      path: '/content'
+      fullPath: '/admin/content'
+      preLoaderRoute: typeof AdminContentRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/services/$slug/$productSlug': {
       id: '/services/$slug/$productSlug'
       path: '/$productSlug'
@@ -285,6 +418,24 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AdminRouteChildren {
+  AdminContentRoute: typeof AdminContentRoute
+  AdminRobotsRoute: typeof AdminRobotsRoute
+  AdminSeoRoute: typeof AdminSeoRoute
+  AdminSitemapRoute: typeof AdminSitemapRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminContentRoute: AdminContentRoute,
+  AdminRobotsRoute: AdminRobotsRoute,
+  AdminSeoRoute: AdminSeoRoute,
+  AdminSitemapRoute: AdminSitemapRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface ServicesSlugRouteChildren {
   ServicesSlugProductSlugRoute: typeof ServicesSlugProductSlugRoute
@@ -329,9 +480,11 @@ const SubsidiesRouteWithChildren = SubsidiesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   CalculatorRoute: CalculatorRoute,
   ContactRoute: ContactRoute,
   PartnersRoute: PartnersRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
   ServicesRoute: ServicesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SubsidiesRoute: SubsidiesRouteWithChildren,
@@ -339,13 +492,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
