@@ -3,7 +3,7 @@ import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { services } from "@/lib/services-data";
 
-export const Route = createFileRoute("/services/$slug")({
+export const Route = createFileRoute("/services/$slug/")({
   loader: ({ params }) => {
     const d = services[params.slug];
     if (!d) throw notFound();
@@ -132,7 +132,7 @@ function ServiceDetail() {
                 <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-brand-orange/10 transition-transform duration-500 group-hover:scale-150" />
                 <div className="relative">
                   <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary">0{i + 1}</div>
-                  <h3 className="mt-2 font-display text-lg font-semibold text-foreground group-hover:text-brand-orange transition">{o.t}</h3>
+                  <h3 className="mt-2 font-display text-lg font-semibold text-foreground transition group-hover:text-brand-orange">{o.t}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">{o.d}</p>
                   <div className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-orange">
                     View details <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
