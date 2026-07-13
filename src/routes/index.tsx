@@ -253,7 +253,9 @@ function ServicesGrid() {
       </div>
       <div className="mt-12 grid auto-rows-fr gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((s) => {
-          const parent = "slug" in s ? servicesData[s.slug] : undefined;
+          const slug = (s as { slug?: string }).slug;
+          const href = (s as { href?: string }).href;
+          const parent = slug ? servicesData[slug] : undefined;
           const offerings = parent?.offerings.slice(0, 6) ?? [];
           return (
             <div
@@ -261,8 +263,8 @@ function ServicesGrid() {
               className="reveal group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition duration-500 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-[var(--shadow-elevated)]"
             >
               <Link
-                to={"slug" in s ? "/services/$slug" : (s as { href: string }).href}
-                params={"slug" in s ? { slug: s.slug } : undefined}
+                to={slug ? "/services/$slug" : (href as string)}
+                params={slug ? { slug } : undefined}
                 className="relative block aspect-[16/10] overflow-hidden"
               >
                 <img src={s.img} alt={s.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
@@ -270,20 +272,20 @@ function ServicesGrid() {
               </Link>
               <div className="flex flex-1 flex-col p-6">
                 <Link
-                  to={"slug" in s ? "/services/$slug" : (s as { href: string }).href}
-                  params={"slug" in s ? { slug: s.slug } : undefined}
+                  to={slug ? "/services/$slug" : (href as string)}
+                  params={slug ? { slug } : undefined}
                   className="font-display text-lg font-semibold text-foreground hover:text-primary"
                 >
                   {s.title}
                 </Link>
                 <p className="mt-2 text-sm text-muted-foreground">{s.desc}</p>
-                {offerings.length > 0 && "slug" in s && (
+                {slug && offerings.length > 0 && (
                   <ul className="mt-4 flex flex-wrap gap-2">
                     {offerings.map((o) => (
                       <li key={o.slug}>
                         <Link
                           to="/services/$slug/$productSlug"
-                          params={{ slug: s.slug, productSlug: o.slug }}
+                          params={{ slug, productSlug: o.slug }}
                           className="inline-flex items-center rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-foreground transition hover:border-brand-orange hover:bg-brand-orange hover:text-white"
                         >
                           {o.t}
@@ -294,8 +296,8 @@ function ServicesGrid() {
                 )}
                 <div className="mt-auto pt-5">
                   <Link
-                    to={"slug" in s ? "/services/$slug" : (s as { href: string }).href}
-                    params={"slug" in s ? { slug: s.slug } : undefined}
+                    to={slug ? "/services/$slug" : (href as string)}
+                    params={slug ? { slug } : undefined}
                     className="inline-flex items-center gap-1 text-sm font-semibold text-primary"
                   >
                     View details <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
