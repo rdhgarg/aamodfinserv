@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useReveal } from "@/hooks/use-reveal";
+import { services as servicesData } from "@/lib/services-data";
 import heroLoans from "@/assets/hero-loans.jpg";
 import heroFunding from "@/assets/hero-funding.jpg";
 import heroSubsidies from "@/assets/hero-subsidies.jpg";
@@ -56,11 +57,11 @@ export const Route = createFileRoute("/")({
 const heroImages = [heroLoans, heroFunding, heroSubsidies, heroHealth];
 
 const services = [
-  { img: svcLoans, title: "Loan Consultancy", desc: "Home, business, personal & LAP — matched to the right lender.", href: "/services/loans-consultancy" },
-  { img: svcFunding, title: "Project Funding", desc: "End-to-end funding for hotels, hospitals, factories & more.", href: "/services/project-funding" },
-  { img: svcSubsidies, title: "Government Subsidies", desc: "RIPS 2024, VYUPY 2025 & central schemes — done-for-you.", href: "/services/government-subsidies" },
-  { img: svcHealth, title: "Financial Health Checkup", desc: "A 360° audit of your loans, cashflow & savings potential.", href: "/services/financial-health-checkup" },
-  { img: svcLabour, title: "Labour Law Consultancy", desc: "PF, ESIC, gratuity & compliance — stay audit-ready.", href: "/services/labour-law-consultancy" },
+  { img: svcLoans, title: "Loan Consultancy", desc: "Home, business, personal & LAP — matched to the right lender.", slug: "loans-consultancy" },
+  { img: svcFunding, title: "Project Funding", desc: "End-to-end funding for hotels, hospitals, factories & more.", slug: "project-funding" },
+  { img: svcSubsidies, title: "Government Subsidies", desc: "RIPS 2024, VYUPY 2025 & central schemes — done-for-you.", slug: "government-subsidies" },
+  { img: svcHealth, title: "Financial Health Checkup", desc: "A 360° audit of your loans, cashflow & savings potential.", slug: "financial-health-checkup" },
+  { img: svcLabour, title: "Labour Law Consultancy", desc: "PF, ESIC, gratuity & compliance — stay audit-ready.", slug: "labour-law-consultancy" },
   { img: insightEmi, title: "EMI & Debt Restructuring", desc: "Refinance smarter. Cut interest. Free up cashflow.", href: "/calculator" },
 ];
 
@@ -251,25 +252,61 @@ function ServicesGrid() {
         <p className="mt-3 text-muted-foreground">Six practice areas. One dedicated team. Zero jargon.</p>
       </div>
       <div className="mt-12 grid auto-rows-fr gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((s) => (
-          <Link
-            key={s.title}
-            to={s.href}
-            className="reveal group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition duration-500 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-[var(--shadow-elevated)]"
-          >
-            <div className="relative aspect-[16/10] overflow-hidden">
-              <img src={s.img} alt={s.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/60 via-transparent to-transparent" />
+        {services.map((s) => {
+          const slug = (s as { slug?: string }).slug;
+          const href = (s as { href?: string }).href;
+          const parent = slug ? servicesData[slug] : undefined;
+          const offerings = parent?.offerings.slice(0, 6) ?? [];
+          return (
+            <div
+              key={s.title}
+              className="reveal group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition duration-500 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-[var(--shadow-elevated)]"
+            >
+              <Link
+                to={slug ? "/services/$slug" : (href as string)}
+                params={slug ? { slug } : undefined}
+                className="relative block aspect-[16/10] overflow-hidden"
+              >
+                <img src={s.img} alt={s.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/60 via-transparent to-transparent" />
+              </Link>
+              <div className="flex flex-1 flex-col p-6">
+                <Link
+                  to={slug ? "/services/$slug" : (href as string)}
+                  params={slug ? { slug } : undefined}
+                  className="font-display text-lg font-semibold text-foreground hover:text-primary"
+                >
+                  {s.title}
+                </Link>
+                <p className="mt-2 text-sm text-muted-foreground">{s.desc}</p>
+                {slug && offerings.length > 0 && (
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {offerings.map((o) => (
+                      <li key={o.slug}>
+                        <Link
+                          to="/services/$slug/$productSlug"
+                          params={{ slug, productSlug: o.slug }}
+                          className="inline-flex items-center rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-foreground transition hover:border-brand-orange hover:bg-brand-orange hover:text-white"
+                        >
+                          {o.t}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <div className="mt-auto pt-5">
+                  <Link
+                    to={slug ? "/services/$slug" : (href as string)}
+                    params={slug ? { slug } : undefined}
+                    className="inline-flex items-center gap-1 text-sm font-semibold text-primary"
+                  >
+                    View details <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                  </Link>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-1 flex-col p-6">
-              <h3 className="font-display text-lg font-semibold text-foreground">{s.title}</h3>
-              <p className="mt-2 flex-1 text-sm text-muted-foreground">{s.desc}</p>
-              <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
-                View details <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-              </span>
-            </div>
-          </Link>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
