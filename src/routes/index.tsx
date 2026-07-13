@@ -57,11 +57,11 @@ export const Route = createFileRoute("/")({
 const heroImages = [heroLoans, heroFunding, heroSubsidies, heroHealth];
 
 const services = [
-  { img: svcLoans, title: "Loan Consultancy", desc: "Home, business, personal & LAP — matched to the right lender.", href: "/services/loans-consultancy" },
-  { img: svcFunding, title: "Project Funding", desc: "End-to-end funding for hotels, hospitals, factories & more.", href: "/services/project-funding" },
-  { img: svcSubsidies, title: "Government Subsidies", desc: "RIPS 2024, VYUPY 2025 & central schemes — done-for-you.", href: "/services/government-subsidies" },
-  { img: svcHealth, title: "Financial Health Checkup", desc: "A 360° audit of your loans, cashflow & savings potential.", href: "/services/financial-health-checkup" },
-  { img: svcLabour, title: "Labour Law Consultancy", desc: "PF, ESIC, gratuity & compliance — stay audit-ready.", href: "/services/labour-law-consultancy" },
+  { img: svcLoans, title: "Loan Consultancy", desc: "Home, business, personal & LAP — matched to the right lender.", slug: "loans-consultancy" },
+  { img: svcFunding, title: "Project Funding", desc: "End-to-end funding for hotels, hospitals, factories & more.", slug: "project-funding" },
+  { img: svcSubsidies, title: "Government Subsidies", desc: "RIPS 2024, VYUPY 2025 & central schemes — done-for-you.", slug: "government-subsidies" },
+  { img: svcHealth, title: "Financial Health Checkup", desc: "A 360° audit of your loans, cashflow & savings potential.", slug: "financial-health-checkup" },
+  { img: svcLabour, title: "Labour Law Consultancy", desc: "PF, ESIC, gratuity & compliance — stay audit-ready.", slug: "labour-law-consultancy" },
   { img: insightEmi, title: "EMI & Debt Restructuring", desc: "Refinance smarter. Cut interest. Free up cashflow.", href: "/calculator" },
 ];
 
