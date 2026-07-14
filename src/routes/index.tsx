@@ -24,6 +24,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { useReveal } from "@/hooks/use-reveal";
 import { services as servicesData } from "@/lib/services-data";
+import {
+  useSiteOverrides,
+  HOME_HERO_KEY,
+  HOME_HERO_DEFAULTS,
+  HOME_INTRO_KEY,
+  HOME_INTRO_DEFAULTS,
+} from "@/lib/use-site-overrides";
 import heroLoans from "@/assets/hero-loans.jpg";
 import heroFunding from "@/assets/hero-funding.jpg";
 import heroSubsidies from "@/assets/hero-subsidies.jpg";
@@ -118,6 +125,8 @@ function HomePage() {
 /* ─── HERO ─────────────────────────────────────────────── */
 function Hero() {
   const [i, setI] = useState(0);
+  const overrides = useSiteOverrides();
+  const h = overrides.get(HOME_HERO_KEY, HOME_HERO_DEFAULTS);
   useEffect(() => {
     const id = setInterval(() => setI((x) => (x + 1) % heroImages.length), 6000);
     return () => clearInterval(id);
@@ -131,29 +140,29 @@ function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-orange opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-orange" />
             </span>
-            You Dream It. We Chase It.
+            {h.badge}
           </span>
           <h1 className="mt-5 animate-fade-in-up font-display text-4xl font-black leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            Smarter Finance.{" "}
+            {h.titleLead}{" "}
             <span className="relative inline-block bg-gradient-to-r from-brand-orange via-amber-400 to-brand-orange bg-[length:200%_100%] bg-clip-text text-transparent animate-shine">
-              Stronger Futures.
+              {h.titleHighlight}
             </span>
           </h1>
           <p className="mt-5 max-w-xl text-lg text-muted-foreground">
-            40+ years of collective expertise, 50+ banking partners and ₹1500+ Cr disbursed — powering India's MSMEs, homeowners and entrepreneurs with clear, jargon-free financial advice.
+            {h.subtitle}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button size="lg" asChild className="bg-brand-orange text-white shadow-xl shadow-brand-orange/20 hover:bg-brand-orange/90">
-              <Link to="/contact">Book a Free Consultation <ArrowRight className="ml-1 h-4 w-4" /></Link>
+              <Link to="/contact">{h.primaryCta} <ArrowRight className="ml-1 h-4 w-4" /></Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/services">Explore Services</Link>
+              <Link to="/services">{h.secondaryCta}</Link>
             </Button>
           </div>
           <div className="mt-8 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
-            <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand-orange" /> No hidden charges</span>
-            <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand-orange" /> RBI-registered lenders</span>
-            <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand-orange" /> 24-hour response</span>
+            <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand-orange" /> {h.trust1}</span>
+            <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand-orange" /> {h.trust2}</span>
+            <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand-orange" /> {h.trust3}</span>
           </div>
         </div>
 
@@ -197,22 +206,20 @@ function Hero() {
 
 /* ─── SHORT INTRO ──────────────────────────────────────── */
 function ShortIntro() {
+  const overrides = useSiteOverrides();
+  const t = overrides.get(HOME_INTRO_KEY, HOME_INTRO_DEFAULTS);
   return (
     <section className="border-b border-border">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Who we are</div>
+          <div className="text-xs font-bold uppercase tracking-[0.2em] text-primary">{t.eyebrow}</div>
           <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Your growth partner in every financial decision
+            {t.heading}
           </h2>
         </div>
         <div className="mt-10 grid gap-8 text-base leading-relaxed text-muted-foreground md:grid-cols-2">
-          <p>
-            Aamod Finserv Pvt. Ltd. is a full-spectrum financial consultancy powered by a core team of ex-bankers and CAs with <strong className="text-foreground">40+ years of collective experience</strong>. We simplify the messy world of loans, subsidies and compliance so entrepreneurs, homeowners and MSMEs can move fast and grow with confidence.
-          </p>
-          <p>
-            From <strong className="text-foreground">RIPS 2024 and VYUPY 2025 subsidies</strong> to project funding for hotels, hospitals and factories — we handle the paperwork, negotiate rates and shortlist the right lender from our <strong className="text-foreground">50+ banking partners</strong>, so you deal with one team instead of ten branches.
-          </p>
+          <p>{t.paragraph1}</p>
+          <p>{t.paragraph2}</p>
         </div>
       </div>
     </section>

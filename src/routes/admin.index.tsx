@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Card } from "@/components/ui/card";
-import { Search, FileText, Bot, MapPinned, ExternalLink } from "lucide-react";
+import { Search, FileText, Bot, MapPinned, ExternalLink, Globe, Home } from "lucide-react";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminDashboard,
@@ -8,6 +8,8 @@ export const Route = createFileRoute("/admin/")({
 
 function AdminDashboard() {
   const cards = [
+    { to: "/admin/site", icon: Globe, title: "Site Chrome", desc: "Global phone, email, hours, WhatsApp, social links and footer tagline." },
+    { to: "/admin/home", icon: Home, title: "Home Sections", desc: "Edit the hero banner, CTAs, trust badges and the Who-we-are intro." },
     { to: "/admin/seo", icon: Search, title: "SEO Meta", desc: "Edit title, description, OG image, canonical and noindex per page." },
     { to: "/admin/content", icon: FileText, title: "Content", desc: "Override service and subsidy content headings, bullets and CTAs." },
     { to: "/admin/robots", icon: Bot, title: "Robots.txt", desc: "Control crawler rules and sitemap directive at /robots.txt." },

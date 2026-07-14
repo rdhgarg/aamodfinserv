@@ -1,8 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, Phone, Clock, MapPin, Instagram, Facebook, Linkedin } from "lucide-react";
 import logo from "@/assets/aamod-logo.png.asset.json";
+import { useSiteOverrides, SITE_CHROME_KEY, SITE_CHROME_DEFAULTS } from "@/lib/use-site-overrides";
 
 export function SiteFooter() {
+  const overrides = useSiteOverrides();
+  const c = overrides.get(SITE_CHROME_KEY, SITE_CHROME_DEFAULTS);
   return (
     <footer className="mt-24 border-t border-border bg-brand-navy text-white">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
@@ -12,10 +15,10 @@ export function SiteFooter() {
               <img src={logo.url} alt="Aamod Finserv" width={180} height={48} className="h-10 w-auto" />
             </div>
             <p className="mt-4 text-sm text-white/70">
-              You Dream It. We Chase It. Simplifying finance with 40+ years of collective expertise and 50+ banking partners across India.
+              {c.tagline}
             </p>
             <div className="mt-4 flex gap-2">
-              {[{ I: Instagram, h: "https://www.instagram.com/ankitgoyalca?igsh=NmxtNmhnNDJkOXpv" }, { I: Facebook, h: "https://facebook.com" }, { I: Linkedin, h: "https://linkedin.com" }].map(({ I, h }, i) => (
+              {[{ I: Instagram, h: c.instagram }, { I: Facebook, h: c.facebook }, { I: Linkedin, h: c.linkedin }].map(({ I, h }, i) => (
                 <a key={i} href={h} target="_blank" rel="noreferrer" className="grid h-9 w-9 place-items-center rounded-lg bg-white/10 transition hover:bg-brand-orange">
                   <I className="h-4 w-4" />
                 </a>
@@ -34,10 +37,10 @@ export function SiteFooter() {
           <div>
             <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-white/80">Reach Us</h3>
             <ul className="mt-4 space-y-3 text-sm text-white/70">
-              <li className="flex items-start gap-2"><Phone className="mt-0.5 h-4 w-4 text-primary" /> +91 97840 09748</li>
-              <li className="flex items-start gap-2"><Mail className="mt-0.5 h-4 w-4 text-primary" /> admin1@aamodfinserv.com</li>
-              <li className="flex items-start gap-2"><Clock className="mt-0.5 h-4 w-4 text-primary" /> Mon–Sat, 09:00–20:00</li>
-              <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 text-primary" /> India</li>
+              <li className="flex items-start gap-2"><Phone className="mt-0.5 h-4 w-4 text-primary" /> {c.phone}</li>
+              <li className="flex items-start gap-2"><Mail className="mt-0.5 h-4 w-4 text-primary" /> {c.email}</li>
+              <li className="flex items-start gap-2"><Clock className="mt-0.5 h-4 w-4 text-primary" /> {c.hours}</li>
+              <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 text-primary" /> {c.address}</li>
             </ul>
           </div>
           <div>

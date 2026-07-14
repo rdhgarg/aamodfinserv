@@ -4,6 +4,7 @@ import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/aamod-logo.png.asset.json";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useSiteOverrides, SITE_CHROME_KEY, SITE_CHROME_DEFAULTS } from "@/lib/use-site-overrides";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -17,12 +18,14 @@ const nav = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const overrides = useSiteOverrides();
+  const chrome = overrides.get(SITE_CHROME_KEY, SITE_CHROME_DEFAULTS);
   return (
     <header className="sticky top-0 z-50 w-full bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/75 shadow-sm">
       <div className="hidden bg-brand-navy text-white sm:block">
         <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-4 text-xs sm:px-6 lg:px-8">
-          <span className="flex items-center gap-2"><Phone className="h-3 w-3 text-brand-orange" /> +91 97840 09748 · Mon–Sat 09:00–20:00</span>
-          <span className="opacity-80">admin1@aamodfinserv.com</span>
+          <span className="flex items-center gap-2"><Phone className="h-3 w-3 text-brand-orange" /> {chrome.phone} · {chrome.hours}</span>
+          <span className="opacity-80">{chrome.email}</span>
         </div>
       </div>
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
