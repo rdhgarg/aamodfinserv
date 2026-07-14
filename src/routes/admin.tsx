@@ -5,7 +5,7 @@ import { adminSession, adminLogin, adminLogout } from "@/lib/admin.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Shield, LogOut, LayoutDashboard, Search, FileText, Bot, MapPinned } from "lucide-react";
+import { Shield, LogOut, LayoutDashboard, Search, FileText, Bot, MapPinned, Globe, Home } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
@@ -87,6 +87,8 @@ function AdminLayout() {
 
   const nav: { to: string; label: string; icon: typeof Search; exact?: boolean }[] = [
     { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+    { to: "/admin/site", label: "Site Chrome", icon: Globe },
+    { to: "/admin/home", label: "Home Sections", icon: Home },
     { to: "/admin/seo", label: "SEO Meta", icon: Search },
     { to: "/admin/content", label: "Content", icon: FileText },
     { to: "/admin/robots", label: "Robots.txt", icon: Bot },
