@@ -499,6 +499,32 @@ function FinalCTA() {
   );
 }
 
+/* ─── FAQ ──────────────────────────────────────────────── */
+function FaqSection() {
+  const overrides = useSiteOverrides();
+  const items = overrides.getList<FaqItem>(FAQ_KEY, FAQ_DEFAULTS);
+  if (items.length === 0) return null;
+  return (
+    <section className="mx-auto max-w-4xl px-4 pb-20 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-2xl text-center">
+        <div className="text-xs font-bold uppercase tracking-[0.2em] text-primary">FAQ</div>
+        <h2 className="mt-3 font-display text-3xl font-bold text-foreground sm:text-4xl">Answers, up front</h2>
+      </div>
+      <dl className="mt-10 divide-y divide-border rounded-2xl border border-border bg-card">
+        {items.map((f, i) => (
+          <details key={i} className="group px-6 py-5 open:bg-secondary/30">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+              <dt className="font-display text-base font-semibold text-foreground">{f.q}</dt>
+              <span className="text-primary transition group-open:rotate-45">＋</span>
+            </summary>
+            <dd className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.a}</dd>
+          </details>
+        ))}
+      </dl>
+    </section>
+  );
+}
+
 export function Section({ eyebrow, title, subtitle, children }: { eyebrow?: string; title: string; subtitle?: string; children: React.ReactNode }) {
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
