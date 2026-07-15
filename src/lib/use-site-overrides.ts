@@ -28,6 +28,11 @@ export function useSiteOverrides() {
       }
       return merged as T;
     },
+    getList<T>(key: string, defaults: T[]): T[] {
+      const v = map.get(key) as { items?: T[] } | undefined;
+      if (!v || !Array.isArray(v.items) || v.items.length === 0) return defaults;
+      return v.items;
+    },
   };
 }
 
@@ -100,3 +105,54 @@ export const HOME_INTRO_DEFAULTS: HomeIntro = {
   paragraph2:
     "From RIPS 2024 and VYUPY 2025 subsidies to project funding for hotels, hospitals and factories — we handle the paperwork, negotiate rates and shortlist the right lender from our 50+ banking partners, so you deal with one team instead of ten branches.",
 };
+
+/* ─── Banners (Home hero slider) ───────────────────────── */
+export const BANNERS_KEY = "home:banners";
+export type BannerItem = { image: string; title?: string; subtitle?: string };
+export const BANNERS_DEFAULTS: BannerItem[] = [];
+
+/* ─── Home services meta ───────────────────────────────── */
+export const HOME_SERVICES_KEY = "home:services";
+export type HomeServiceItem = { title: string; desc: string; image?: string; slug?: string; href?: string };
+export const HOME_SERVICES_DEFAULTS: HomeServiceItem[] = [];
+
+/* ─── FAQ ──────────────────────────────────────────────── */
+export const FAQ_KEY = "site:faq";
+export type FaqItem = { q: string; a: string };
+export const FAQ_DEFAULTS: FaqItem[] = [
+  { q: "How quickly can I get a loan sanctioned?", a: "Most pre-screened files close in 5–10 working days depending on lender and documentation." },
+  { q: "Do you charge upfront fees?", a: "No. Our advisory fee is transparent and disclosed upfront; there are no hidden charges." },
+  { q: "Which cities do you serve?", a: "We serve clients pan-India with a strong on-ground presence across Rajasthan and North India." },
+  { q: "Can you help with RIPS 2024 / VYUPY 2025?", a: "Yes — we handle end-to-end subsidy paperwork, filings and follow-up with the state authority." },
+];
+
+/* ─── About page override ──────────────────────────────── */
+export const ABOUT_KEY = "page:about";
+export type AboutOverride = { eyebrow: string; title: string; subtitle: string };
+export const ABOUT_DEFAULTS: AboutOverride = {
+  eyebrow: "About us",
+  title: "Simplifying finance for India's growth story",
+  subtitle: "40+ years of collective expertise. 950+ clients guided. ₹1500+ Cr raised for MSMEs across India.",
+};
+
+/* ─── Contact page override ────────────────────────────── */
+export const CONTACT_KEY = "page:contact";
+export type ContactOverride = { eyebrow: string; title: string; subtitle: string };
+export const CONTACT_DEFAULTS: ContactOverride = {
+  eyebrow: "Contact",
+  title: "Let's talk finance",
+  subtitle: "Tell us a bit about your goals. A senior advisor will get back within one business day.",
+};
+
+/* ─── Blogs ────────────────────────────────────────────── */
+export const BLOGS_KEY = "site:blogs";
+export type BlogPost = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  image?: string;
+  author?: string;
+  date?: string;
+  content: string; // markdown/plain text
+};
+export const BLOGS_DEFAULTS: BlogPost[] = [];
