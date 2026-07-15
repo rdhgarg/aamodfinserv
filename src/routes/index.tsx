@@ -30,6 +30,13 @@ import {
   HOME_HERO_DEFAULTS,
   HOME_INTRO_KEY,
   HOME_INTRO_DEFAULTS,
+  BANNERS_KEY,
+  HOME_SERVICES_KEY,
+  FAQ_KEY,
+  FAQ_DEFAULTS,
+  type BannerItem,
+  type HomeServiceItem,
+  type FaqItem,
 } from "@/lib/use-site-overrides";
 import heroLoans from "@/assets/hero-loans.jpg";
 import heroFunding from "@/assets/hero-funding.jpg";
@@ -117,6 +124,7 @@ function HomePage() {
       <WhyChooseUs />
       <TrustedBy />
       <Testimonials />
+      <FaqSection />
       <FinalCTA />
     </>
   );
@@ -127,10 +135,12 @@ function Hero() {
   const [i, setI] = useState(0);
   const overrides = useSiteOverrides();
   const h = overrides.get(HOME_HERO_KEY, HOME_HERO_DEFAULTS);
+  const banners = overrides.getList<BannerItem>(BANNERS_KEY, []);
+  const slides = banners.length > 0 ? banners.map((b) => b.image).filter(Boolean) : heroImages;
   useEffect(() => {
-    const id = setInterval(() => setI((x) => (x + 1) % heroImages.length), 6000);
+    const id = setInterval(() => setI((x) => (x + 1) % slides.length), 6000);
     return () => clearInterval(id);
-  }, []);
+  }, [slides.length]);
   return (
     <section className="border-b border-border bg-gradient-to-b from-brand-blue-soft/40 to-background">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:py-20 lg:px-8">
@@ -168,7 +178,7 @@ function Hero() {
 
         <div className="relative">
           <div className="relative aspect-[5/4] overflow-hidden rounded-[2rem] border border-border bg-brand-navy shadow-[var(--shadow-elevated)]">
-            {heroImages.map((src, idx) => (
+            {slides.map((src, idx) => (
               <img
                 key={idx}
                 src={src}
@@ -179,7 +189,7 @@ function Hero() {
             ))}
             <div className="absolute inset-0 bg-gradient-to-tr from-brand-navy/40 via-transparent to-transparent" />
             <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-              {heroImages.map((_, idx) => (
+              {slides.map((_, idx) => (
                 <button
                   key={idx}
                   aria-label={`Slide ${idx + 1}`}
