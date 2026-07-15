@@ -25,6 +25,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SubsidiesSlugRouteImport } from './routes/subsidies.$slug'
 import { Route as AdminSitemapRouteImport } from './routes/admin.sitemap'
 import { Route as AdminSiteRouteImport } from './routes/admin.site'
+import { Route as AdminServicesRouteImport } from './routes/admin.services'
 import { Route as AdminSeoRouteImport } from './routes/admin.seo'
 import { Route as AdminRobotsRouteImport } from './routes/admin.robots'
 import { Route as AdminHomeRouteImport } from './routes/admin.home'
@@ -113,6 +114,11 @@ const AdminSiteRoute = AdminSiteRouteImport.update({
   path: '/site',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminServicesRoute = AdminServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminSeoRoute = AdminSeoRouteImport.update({
   id: '/seo',
   path: '/seo',
@@ -165,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/admin/home': typeof AdminHomeRoute
   '/admin/robots': typeof AdminRobotsRoute
   '/admin/seo': typeof AdminSeoRoute
+  '/admin/services': typeof AdminServicesRoute
   '/admin/site': typeof AdminSiteRoute
   '/admin/sitemap': typeof AdminSitemapRoute
   '/subsidies/$slug': typeof SubsidiesSlugRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/admin/home': typeof AdminHomeRoute
   '/admin/robots': typeof AdminRobotsRoute
   '/admin/seo': typeof AdminSeoRoute
+  '/admin/services': typeof AdminServicesRoute
   '/admin/site': typeof AdminSiteRoute
   '/admin/sitemap': typeof AdminSitemapRoute
   '/subsidies/$slug': typeof SubsidiesSlugRoute
@@ -213,6 +221,7 @@ export interface FileRoutesById {
   '/admin/home': typeof AdminHomeRoute
   '/admin/robots': typeof AdminRobotsRoute
   '/admin/seo': typeof AdminSeoRoute
+  '/admin/services': typeof AdminServicesRoute
   '/admin/site': typeof AdminSiteRoute
   '/admin/sitemap': typeof AdminSitemapRoute
   '/subsidies/$slug': typeof SubsidiesSlugRoute
@@ -240,6 +249,7 @@ export interface FileRouteTypes {
     | '/admin/home'
     | '/admin/robots'
     | '/admin/seo'
+    | '/admin/services'
     | '/admin/site'
     | '/admin/sitemap'
     | '/subsidies/$slug'
@@ -262,6 +272,7 @@ export interface FileRouteTypes {
     | '/admin/home'
     | '/admin/robots'
     | '/admin/seo'
+    | '/admin/services'
     | '/admin/site'
     | '/admin/sitemap'
     | '/subsidies/$slug'
@@ -287,6 +298,7 @@ export interface FileRouteTypes {
     | '/admin/home'
     | '/admin/robots'
     | '/admin/seo'
+    | '/admin/services'
     | '/admin/site'
     | '/admin/sitemap'
     | '/subsidies/$slug'
@@ -424,6 +436,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSiteRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/services': {
+      id: '/admin/services'
+      path: '/services'
+      fullPath: '/admin/services'
+      preLoaderRoute: typeof AdminServicesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/seo': {
       id: '/admin/seo'
       path: '/seo'
@@ -482,6 +501,7 @@ interface AdminRouteChildren {
   AdminHomeRoute: typeof AdminHomeRoute
   AdminRobotsRoute: typeof AdminRobotsRoute
   AdminSeoRoute: typeof AdminSeoRoute
+  AdminServicesRoute: typeof AdminServicesRoute
   AdminSiteRoute: typeof AdminSiteRoute
   AdminSitemapRoute: typeof AdminSitemapRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -493,6 +513,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminHomeRoute: AdminHomeRoute,
   AdminRobotsRoute: AdminRobotsRoute,
   AdminSeoRoute: AdminSeoRoute,
+  AdminServicesRoute: AdminServicesRoute,
   AdminSiteRoute: AdminSiteRoute,
   AdminSitemapRoute: AdminSitemapRoute,
   AdminIndexRoute: AdminIndexRoute,
