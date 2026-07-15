@@ -21,14 +21,22 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SubsidiesIndexRouteImport } from './routes/subsidies.index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
+import { Route as BlogsIndexRouteImport } from './routes/blogs.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SubsidiesSlugRouteImport } from './routes/subsidies.$slug'
+import { Route as BlogsSlugRouteImport } from './routes/blogs.$slug'
 import { Route as AdminSitemapRouteImport } from './routes/admin.sitemap'
 import { Route as AdminSiteRouteImport } from './routes/admin.site'
+import { Route as AdminServicesRouteImport } from './routes/admin.services'
 import { Route as AdminSeoRouteImport } from './routes/admin.seo'
 import { Route as AdminRobotsRouteImport } from './routes/admin.robots'
 import { Route as AdminHomeRouteImport } from './routes/admin.home'
+import { Route as AdminFaqRouteImport } from './routes/admin.faq'
 import { Route as AdminContentRouteImport } from './routes/admin.content'
+import { Route as AdminContactRouteImport } from './routes/admin.contact'
+import { Route as AdminBlogsRouteImport } from './routes/admin.blogs'
+import { Route as AdminBannersRouteImport } from './routes/admin.banners'
+import { Route as AdminAboutRouteImport } from './routes/admin.about'
 import { Route as ServicesSlugIndexRouteImport } from './routes/services.$slug.index'
 import { Route as ServicesSlugProductSlugRouteImport } from './routes/services.$slug.$productSlug'
 
@@ -92,6 +100,11 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ServicesRoute,
 } as any)
+const BlogsIndexRoute = BlogsIndexRouteImport.update({
+  id: '/blogs/',
+  path: '/blogs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -102,6 +115,11 @@ const SubsidiesSlugRoute = SubsidiesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => SubsidiesRoute,
 } as any)
+const BlogsSlugRoute = BlogsSlugRouteImport.update({
+  id: '/blogs/$slug',
+  path: '/blogs/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminSitemapRoute = AdminSitemapRouteImport.update({
   id: '/sitemap',
   path: '/sitemap',
@@ -110,6 +128,11 @@ const AdminSitemapRoute = AdminSitemapRouteImport.update({
 const AdminSiteRoute = AdminSiteRouteImport.update({
   id: '/site',
   path: '/site',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminServicesRoute = AdminServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminSeoRoute = AdminSeoRouteImport.update({
@@ -127,9 +150,34 @@ const AdminHomeRoute = AdminHomeRouteImport.update({
   path: '/home',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminFaqRoute = AdminFaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminContentRoute = AdminContentRouteImport.update({
   id: '/content',
   path: '/content',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminContactRoute = AdminContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBlogsRoute = AdminBlogsRouteImport.update({
+  id: '/blogs',
+  path: '/blogs',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBannersRoute = AdminBannersRouteImport.update({
+  id: '/banners',
+  path: '/banners',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAboutRoute = AdminAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => AdminRoute,
 } as any)
 const ServicesSlugIndexRoute = ServicesSlugIndexRouteImport.update({
@@ -154,14 +202,22 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subsidies': typeof SubsidiesRouteWithChildren
+  '/admin/about': typeof AdminAboutRoute
+  '/admin/banners': typeof AdminBannersRoute
+  '/admin/blogs': typeof AdminBlogsRoute
+  '/admin/contact': typeof AdminContactRoute
   '/admin/content': typeof AdminContentRoute
+  '/admin/faq': typeof AdminFaqRoute
   '/admin/home': typeof AdminHomeRoute
   '/admin/robots': typeof AdminRobotsRoute
   '/admin/seo': typeof AdminSeoRoute
+  '/admin/services': typeof AdminServicesRoute
   '/admin/site': typeof AdminSiteRoute
   '/admin/sitemap': typeof AdminSitemapRoute
+  '/blogs/$slug': typeof BlogsSlugRoute
   '/subsidies/$slug': typeof SubsidiesSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/blogs/': typeof BlogsIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/subsidies/': typeof SubsidiesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
@@ -175,14 +231,22 @@ export interface FileRoutesByTo {
   '/partners': typeof PartnersRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin/about': typeof AdminAboutRoute
+  '/admin/banners': typeof AdminBannersRoute
+  '/admin/blogs': typeof AdminBlogsRoute
+  '/admin/contact': typeof AdminContactRoute
   '/admin/content': typeof AdminContentRoute
+  '/admin/faq': typeof AdminFaqRoute
   '/admin/home': typeof AdminHomeRoute
   '/admin/robots': typeof AdminRobotsRoute
   '/admin/seo': typeof AdminSeoRoute
+  '/admin/services': typeof AdminServicesRoute
   '/admin/site': typeof AdminSiteRoute
   '/admin/sitemap': typeof AdminSitemapRoute
+  '/blogs/$slug': typeof BlogsSlugRoute
   '/subsidies/$slug': typeof SubsidiesSlugRoute
   '/admin': typeof AdminIndexRoute
+  '/blogs': typeof BlogsIndexRoute
   '/services': typeof ServicesIndexRoute
   '/subsidies': typeof SubsidiesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
@@ -200,14 +264,22 @@ export interface FileRoutesById {
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subsidies': typeof SubsidiesRouteWithChildren
+  '/admin/about': typeof AdminAboutRoute
+  '/admin/banners': typeof AdminBannersRoute
+  '/admin/blogs': typeof AdminBlogsRoute
+  '/admin/contact': typeof AdminContactRoute
   '/admin/content': typeof AdminContentRoute
+  '/admin/faq': typeof AdminFaqRoute
   '/admin/home': typeof AdminHomeRoute
   '/admin/robots': typeof AdminRobotsRoute
   '/admin/seo': typeof AdminSeoRoute
+  '/admin/services': typeof AdminServicesRoute
   '/admin/site': typeof AdminSiteRoute
   '/admin/sitemap': typeof AdminSitemapRoute
+  '/blogs/$slug': typeof BlogsSlugRoute
   '/subsidies/$slug': typeof SubsidiesSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/blogs/': typeof BlogsIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/subsidies/': typeof SubsidiesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
@@ -226,14 +298,22 @@ export interface FileRouteTypes {
     | '/services'
     | '/sitemap.xml'
     | '/subsidies'
+    | '/admin/about'
+    | '/admin/banners'
+    | '/admin/blogs'
+    | '/admin/contact'
     | '/admin/content'
+    | '/admin/faq'
     | '/admin/home'
     | '/admin/robots'
     | '/admin/seo'
+    | '/admin/services'
     | '/admin/site'
     | '/admin/sitemap'
+    | '/blogs/$slug'
     | '/subsidies/$slug'
     | '/admin/'
+    | '/blogs/'
     | '/services/'
     | '/subsidies/'
     | '/services/$slug/$productSlug'
@@ -247,14 +327,22 @@ export interface FileRouteTypes {
     | '/partners'
     | '/robots.txt'
     | '/sitemap.xml'
+    | '/admin/about'
+    | '/admin/banners'
+    | '/admin/blogs'
+    | '/admin/contact'
     | '/admin/content'
+    | '/admin/faq'
     | '/admin/home'
     | '/admin/robots'
     | '/admin/seo'
+    | '/admin/services'
     | '/admin/site'
     | '/admin/sitemap'
+    | '/blogs/$slug'
     | '/subsidies/$slug'
     | '/admin'
+    | '/blogs'
     | '/services'
     | '/subsidies'
     | '/services/$slug/$productSlug'
@@ -271,14 +359,22 @@ export interface FileRouteTypes {
     | '/services'
     | '/sitemap.xml'
     | '/subsidies'
+    | '/admin/about'
+    | '/admin/banners'
+    | '/admin/blogs'
+    | '/admin/contact'
     | '/admin/content'
+    | '/admin/faq'
     | '/admin/home'
     | '/admin/robots'
     | '/admin/seo'
+    | '/admin/services'
     | '/admin/site'
     | '/admin/sitemap'
+    | '/blogs/$slug'
     | '/subsidies/$slug'
     | '/admin/'
+    | '/blogs/'
     | '/services/'
     | '/subsidies/'
     | '/services/$slug/$productSlug'
@@ -296,6 +392,8 @@ export interface RootRouteChildren {
   ServicesRoute: typeof ServicesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SubsidiesRoute: typeof SubsidiesRouteWithChildren
+  BlogsSlugRoute: typeof BlogsSlugRoute
+  BlogsIndexRoute: typeof BlogsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -384,6 +482,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesIndexRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/blogs/': {
+      id: '/blogs/'
+      path: '/blogs'
+      fullPath: '/blogs/'
+      preLoaderRoute: typeof BlogsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/'
@@ -398,6 +503,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SubsidiesSlugRouteImport
       parentRoute: typeof SubsidiesRoute
     }
+    '/blogs/$slug': {
+      id: '/blogs/$slug'
+      path: '/blogs/$slug'
+      fullPath: '/blogs/$slug'
+      preLoaderRoute: typeof BlogsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/sitemap': {
       id: '/admin/sitemap'
       path: '/sitemap'
@@ -410,6 +522,13 @@ declare module '@tanstack/react-router' {
       path: '/site'
       fullPath: '/admin/site'
       preLoaderRoute: typeof AdminSiteRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/services': {
+      id: '/admin/services'
+      path: '/services'
+      fullPath: '/admin/services'
+      preLoaderRoute: typeof AdminServicesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/seo': {
@@ -433,11 +552,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminHomeRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/faq': {
+      id: '/admin/faq'
+      path: '/faq'
+      fullPath: '/admin/faq'
+      preLoaderRoute: typeof AdminFaqRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/content': {
       id: '/admin/content'
       path: '/content'
       fullPath: '/admin/content'
       preLoaderRoute: typeof AdminContentRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/contact': {
+      id: '/admin/contact'
+      path: '/contact'
+      fullPath: '/admin/contact'
+      preLoaderRoute: typeof AdminContactRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/blogs': {
+      id: '/admin/blogs'
+      path: '/blogs'
+      fullPath: '/admin/blogs'
+      preLoaderRoute: typeof AdminBlogsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/banners': {
+      id: '/admin/banners'
+      path: '/banners'
+      fullPath: '/admin/banners'
+      preLoaderRoute: typeof AdminBannersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/about': {
+      id: '/admin/about'
+      path: '/about'
+      fullPath: '/admin/about'
+      preLoaderRoute: typeof AdminAboutRouteImport
       parentRoute: typeof AdminRoute
     }
     '/services/$slug/': {
@@ -458,20 +612,32 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminAboutRoute: typeof AdminAboutRoute
+  AdminBannersRoute: typeof AdminBannersRoute
+  AdminBlogsRoute: typeof AdminBlogsRoute
+  AdminContactRoute: typeof AdminContactRoute
   AdminContentRoute: typeof AdminContentRoute
+  AdminFaqRoute: typeof AdminFaqRoute
   AdminHomeRoute: typeof AdminHomeRoute
   AdminRobotsRoute: typeof AdminRobotsRoute
   AdminSeoRoute: typeof AdminSeoRoute
+  AdminServicesRoute: typeof AdminServicesRoute
   AdminSiteRoute: typeof AdminSiteRoute
   AdminSitemapRoute: typeof AdminSitemapRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAboutRoute: AdminAboutRoute,
+  AdminBannersRoute: AdminBannersRoute,
+  AdminBlogsRoute: AdminBlogsRoute,
+  AdminContactRoute: AdminContactRoute,
   AdminContentRoute: AdminContentRoute,
+  AdminFaqRoute: AdminFaqRoute,
   AdminHomeRoute: AdminHomeRoute,
   AdminRobotsRoute: AdminRobotsRoute,
   AdminSeoRoute: AdminSeoRoute,
+  AdminServicesRoute: AdminServicesRoute,
   AdminSiteRoute: AdminSiteRoute,
   AdminSitemapRoute: AdminSitemapRoute,
   AdminIndexRoute: AdminIndexRoute,
@@ -520,6 +686,8 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesRoute: ServicesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SubsidiesRoute: SubsidiesRouteWithChildren,
+  BlogsSlugRoute: BlogsSlugRoute,
+  BlogsIndexRoute: BlogsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

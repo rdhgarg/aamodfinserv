@@ -30,6 +30,13 @@ import {
   HOME_HERO_DEFAULTS,
   HOME_INTRO_KEY,
   HOME_INTRO_DEFAULTS,
+  BANNERS_KEY,
+  HOME_SERVICES_KEY,
+  FAQ_KEY,
+  FAQ_DEFAULTS,
+  type BannerItem,
+  type HomeServiceItem,
+  type FaqItem,
 } from "@/lib/use-site-overrides";
 import heroLoans from "@/assets/hero-loans.jpg";
 import heroFunding from "@/assets/hero-funding.jpg";
@@ -117,6 +124,7 @@ function HomePage() {
       <WhyChooseUs />
       <TrustedBy />
       <Testimonials />
+      <FaqSection />
       <FinalCTA />
     </>
   );
@@ -127,10 +135,12 @@ function Hero() {
   const [i, setI] = useState(0);
   const overrides = useSiteOverrides();
   const h = overrides.get(HOME_HERO_KEY, HOME_HERO_DEFAULTS);
+  const banners = overrides.getList<BannerItem>(BANNERS_KEY, []);
+  const slides = banners.length > 0 ? banners.map((b) => b.image).filter(Boolean) : heroImages;
   useEffect(() => {
-    const id = setInterval(() => setI((x) => (x + 1) % heroImages.length), 6000);
+    const id = setInterval(() => setI((x) => (x + 1) % slides.length), 6000);
     return () => clearInterval(id);
-  }, []);
+  }, [slides.length]);
   return (
     <section className="border-b border-border bg-gradient-to-b from-brand-blue-soft/40 to-background">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:py-20 lg:px-8">
@@ -168,7 +178,7 @@ function Hero() {
 
         <div className="relative">
           <div className="relative aspect-[5/4] overflow-hidden rounded-[2rem] border border-border bg-brand-navy shadow-[var(--shadow-elevated)]">
-            {heroImages.map((src, idx) => (
+            {slides.map((src, idx) => (
               <img
                 key={idx}
                 src={src}
@@ -179,7 +189,7 @@ function Hero() {
             ))}
             <div className="absolute inset-0 bg-gradient-to-tr from-brand-navy/40 via-transparent to-transparent" />
             <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-              {heroImages.map((_, idx) => (
+              {slides.map((_, idx) => (
                 <button
                   key={idx}
                   aria-label={`Slide ${idx + 1}`}
@@ -249,6 +259,12 @@ function ProofStrip() {
 
 /* ─── SERVICES GRID ────────────────────────────────────── */
 function ServicesGrid() {
+  const overrides = useSiteOverrides();
+  const custom = overrides.getList<HomeServiceItem>(HOME_SERVICES_KEY, []);
+  const list: { img?: string; title: string; desc: string; slug?: string; href?: string }[] =
+    custom.length > 0
+      ? custom.map((c) => ({ img: c.image, title: c.title, desc: c.desc, slug: c.slug || undefined, href: c.href || undefined }))
+      : services;
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-2xl text-center">
@@ -259,7 +275,7 @@ function ServicesGrid() {
         <p className="mt-3 text-muted-foreground">Six practice areas. One dedicated team. Zero jargon.</p>
       </div>
       <div className="mt-12 grid auto-rows-fr gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((s) => {
+        {list.map((s) => {
           const slug = (s as { slug?: string }).slug;
           const href = (s as { href?: string }).href;
           const parent = slug ? servicesData[slug] : undefined;
@@ -270,16 +286,16 @@ function ServicesGrid() {
               className="reveal group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition duration-500 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-[var(--shadow-elevated)]"
             >
               <Link
-                to={slug ? "/services/$slug" : (href as string)}
+                to={slug ? "/services/$slug" : ((href as string) || "/services")}
                 params={slug ? { slug } : undefined}
                 className="relative block aspect-[16/10] overflow-hidden"
               >
-                <img src={s.img} alt={s.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
+                {s.img && <img src={s.img} alt={s.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />}
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/60 via-transparent to-transparent" />
               </Link>
               <div className="flex flex-1 flex-col p-6">
                 <Link
-                  to={slug ? "/services/$slug" : (href as string)}
+                  to={slug ? "/services/$slug" : ((href as string) || "/services")}
                   params={slug ? { slug } : undefined}
                   className="font-display text-lg font-semibold text-foreground hover:text-primary"
                 >
@@ -303,7 +319,7 @@ function ServicesGrid() {
                 )}
                 <div className="mt-auto pt-5">
                   <Link
-                    to={slug ? "/services/$slug" : (href as string)}
+                    to={slug ? "/services/$slug" : ((href as string) || "/services")}
                     params={slug ? { slug } : undefined}
                     className="inline-flex items-center gap-1 text-sm font-semibold text-primary"
                   >
@@ -479,6 +495,32 @@ function FinalCTA() {
           </Button>
         </div>
       </div>
+    </section>
+  );
+}
+
+/* ─── FAQ ──────────────────────────────────────────────── */
+function FaqSection() {
+  const overrides = useSiteOverrides();
+  const items = overrides.getList<FaqItem>(FAQ_KEY, FAQ_DEFAULTS);
+  if (items.length === 0) return null;
+  return (
+    <section className="mx-auto max-w-4xl px-4 pb-20 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-2xl text-center">
+        <div className="text-xs font-bold uppercase tracking-[0.2em] text-primary">FAQ</div>
+        <h2 className="mt-3 font-display text-3xl font-bold text-foreground sm:text-4xl">Answers, up front</h2>
+      </div>
+      <dl className="mt-10 divide-y divide-border rounded-2xl border border-border bg-card">
+        {items.map((f, i) => (
+          <details key={i} className="group px-6 py-5 open:bg-secondary/30">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+              <dt className="font-display text-base font-semibold text-foreground">{f.q}</dt>
+              <span className="text-primary transition group-open:rotate-45">＋</span>
+            </summary>
+            <dd className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.a}</dd>
+          </details>
+        ))}
+      </dl>
     </section>
   );
 }
