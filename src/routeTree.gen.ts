@@ -21,6 +21,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SubsidiesIndexRouteImport } from './routes/subsidies.index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
+import { Route as BlogsIndexRouteImport } from './routes/blogs.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SubsidiesSlugRouteImport } from './routes/subsidies.$slug'
 import { Route as AdminSitemapRouteImport } from './routes/admin.sitemap'
@@ -97,6 +98,11 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => ServicesRoute,
+} as any)
+const BlogsIndexRoute = BlogsIndexRouteImport.update({
+  id: '/blogs/',
+  path: '/blogs/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
@@ -204,6 +210,7 @@ export interface FileRoutesByFullPath {
   '/admin/sitemap': typeof AdminSitemapRoute
   '/subsidies/$slug': typeof SubsidiesSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/blogs/': typeof BlogsIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/subsidies/': typeof SubsidiesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
@@ -231,6 +238,7 @@ export interface FileRoutesByTo {
   '/admin/sitemap': typeof AdminSitemapRoute
   '/subsidies/$slug': typeof SubsidiesSlugRoute
   '/admin': typeof AdminIndexRoute
+  '/blogs': typeof BlogsIndexRoute
   '/services': typeof ServicesIndexRoute
   '/subsidies': typeof SubsidiesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
@@ -262,6 +270,7 @@ export interface FileRoutesById {
   '/admin/sitemap': typeof AdminSitemapRoute
   '/subsidies/$slug': typeof SubsidiesSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/blogs/': typeof BlogsIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/subsidies/': typeof SubsidiesIndexRoute
   '/services/$slug/$productSlug': typeof ServicesSlugProductSlugRoute
@@ -294,6 +303,7 @@ export interface FileRouteTypes {
     | '/admin/sitemap'
     | '/subsidies/$slug'
     | '/admin/'
+    | '/blogs/'
     | '/services/'
     | '/subsidies/'
     | '/services/$slug/$productSlug'
@@ -321,6 +331,7 @@ export interface FileRouteTypes {
     | '/admin/sitemap'
     | '/subsidies/$slug'
     | '/admin'
+    | '/blogs'
     | '/services'
     | '/subsidies'
     | '/services/$slug/$productSlug'
@@ -351,6 +362,7 @@ export interface FileRouteTypes {
     | '/admin/sitemap'
     | '/subsidies/$slug'
     | '/admin/'
+    | '/blogs/'
     | '/services/'
     | '/subsidies/'
     | '/services/$slug/$productSlug'
@@ -368,6 +380,7 @@ export interface RootRouteChildren {
   ServicesRoute: typeof ServicesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SubsidiesRoute: typeof SubsidiesRouteWithChildren
+  BlogsIndexRoute: typeof BlogsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -455,6 +468,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/services/'
       preLoaderRoute: typeof ServicesIndexRouteImport
       parentRoute: typeof ServicesRoute
+    }
+    '/blogs/': {
+      id: '/blogs/'
+      path: '/blogs'
+      fullPath: '/blogs/'
+      preLoaderRoute: typeof BlogsIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/': {
       id: '/admin/'
@@ -646,6 +666,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesRoute: ServicesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SubsidiesRoute: SubsidiesRouteWithChildren,
+  BlogsIndexRoute: BlogsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
