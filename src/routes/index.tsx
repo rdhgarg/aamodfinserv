@@ -259,6 +259,12 @@ function ProofStrip() {
 
 /* ─── SERVICES GRID ────────────────────────────────────── */
 function ServicesGrid() {
+  const overrides = useSiteOverrides();
+  const custom = overrides.getList<HomeServiceItem>(HOME_SERVICES_KEY, []);
+  const list: { img?: string; title: string; desc: string; slug?: string; href?: string }[] =
+    custom.length > 0
+      ? custom.map((c) => ({ img: c.image, title: c.title, desc: c.desc, slug: c.slug || undefined, href: c.href || undefined }))
+      : services;
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-2xl text-center">
@@ -269,7 +275,7 @@ function ServicesGrid() {
         <p className="mt-3 text-muted-foreground">Six practice areas. One dedicated team. Zero jargon.</p>
       </div>
       <div className="mt-12 grid auto-rows-fr gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((s) => {
+        {list.map((s) => {
           const slug = (s as { slug?: string }).slug;
           const href = (s as { href?: string }).href;
           const parent = slug ? servicesData[slug] : undefined;
@@ -280,16 +286,16 @@ function ServicesGrid() {
               className="reveal group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition duration-500 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-[var(--shadow-elevated)]"
             >
               <Link
-                to={slug ? "/services/$slug" : (href as string)}
+                to={slug ? "/services/$slug" : ((href as string) || "/services")}
                 params={slug ? { slug } : undefined}
                 className="relative block aspect-[16/10] overflow-hidden"
               >
-                <img src={s.img} alt={s.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
+                {s.img && <img src={s.img} alt={s.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />}
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/60 via-transparent to-transparent" />
               </Link>
               <div className="flex flex-1 flex-col p-6">
                 <Link
-                  to={slug ? "/services/$slug" : (href as string)}
+                  to={slug ? "/services/$slug" : ((href as string) || "/services")}
                   params={slug ? { slug } : undefined}
                   className="font-display text-lg font-semibold text-foreground hover:text-primary"
                 >
@@ -313,7 +319,7 @@ function ServicesGrid() {
                 )}
                 <div className="mt-auto pt-5">
                   <Link
-                    to={slug ? "/services/$slug" : (href as string)}
+                    to={slug ? "/services/$slug" : ((href as string) || "/services")}
                     params={slug ? { slug } : undefined}
                     className="inline-flex items-center gap-1 text-sm font-semibold text-primary"
                   >
