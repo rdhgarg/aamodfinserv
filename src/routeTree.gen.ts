@@ -33,6 +33,7 @@ import { Route as AdminFaqRouteImport } from './routes/admin.faq'
 import { Route as AdminContentRouteImport } from './routes/admin.content'
 import { Route as AdminBlogsRouteImport } from './routes/admin.blogs'
 import { Route as AdminBannersRouteImport } from './routes/admin.banners'
+import { Route as AdminAboutRouteImport } from './routes/admin.about'
 import { Route as ServicesSlugIndexRouteImport } from './routes/services.$slug.index'
 import { Route as ServicesSlugProductSlugRouteImport } from './routes/services.$slug.$productSlug'
 
@@ -156,6 +157,11 @@ const AdminBannersRoute = AdminBannersRouteImport.update({
   path: '/banners',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAboutRoute = AdminAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ServicesSlugIndexRoute = ServicesSlugIndexRouteImport.update({
   id: '/$slug/',
   path: '/$slug/',
@@ -178,6 +184,7 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subsidies': typeof SubsidiesRouteWithChildren
+  '/admin/about': typeof AdminAboutRoute
   '/admin/banners': typeof AdminBannersRoute
   '/admin/blogs': typeof AdminBlogsRoute
   '/admin/content': typeof AdminContentRoute
@@ -203,6 +210,7 @@ export interface FileRoutesByTo {
   '/partners': typeof PartnersRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin/about': typeof AdminAboutRoute
   '/admin/banners': typeof AdminBannersRoute
   '/admin/blogs': typeof AdminBlogsRoute
   '/admin/content': typeof AdminContentRoute
@@ -232,6 +240,7 @@ export interface FileRoutesById {
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subsidies': typeof SubsidiesRouteWithChildren
+  '/admin/about': typeof AdminAboutRoute
   '/admin/banners': typeof AdminBannersRoute
   '/admin/blogs': typeof AdminBlogsRoute
   '/admin/content': typeof AdminContentRoute
@@ -262,6 +271,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/sitemap.xml'
     | '/subsidies'
+    | '/admin/about'
     | '/admin/banners'
     | '/admin/blogs'
     | '/admin/content'
@@ -287,6 +297,7 @@ export interface FileRouteTypes {
     | '/partners'
     | '/robots.txt'
     | '/sitemap.xml'
+    | '/admin/about'
     | '/admin/banners'
     | '/admin/blogs'
     | '/admin/content'
@@ -315,6 +326,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/sitemap.xml'
     | '/subsidies'
+    | '/admin/about'
     | '/admin/banners'
     | '/admin/blogs'
     | '/admin/content'
@@ -516,6 +528,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBannersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/about': {
+      id: '/admin/about'
+      path: '/about'
+      fullPath: '/admin/about'
+      preLoaderRoute: typeof AdminAboutRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/services/$slug/': {
       id: '/services/$slug/'
       path: '/$slug'
@@ -534,6 +553,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminAboutRoute: typeof AdminAboutRoute
   AdminBannersRoute: typeof AdminBannersRoute
   AdminBlogsRoute: typeof AdminBlogsRoute
   AdminContentRoute: typeof AdminContentRoute
@@ -548,6 +568,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAboutRoute: AdminAboutRoute,
   AdminBannersRoute: AdminBannersRoute,
   AdminBlogsRoute: AdminBlogsRoute,
   AdminContentRoute: AdminContentRoute,
