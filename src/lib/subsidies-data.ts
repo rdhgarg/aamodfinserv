@@ -10,6 +10,11 @@ export type SubsidyDef = {
   eligibility: string[];
   benefits: string[];
   faqs: { q: string; a: string }[];
+  documents?: string[];
+  conditions?: string[];
+  process?: string[];
+  quantum?: { label: string; value: string }[];
+  notEligible?: string[];
 };
 
 import heroSubsidies from "@/assets/hero-subsidies.jpg";
