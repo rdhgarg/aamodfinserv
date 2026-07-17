@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
+import { ArrowRight, CheckCircle2, FileText, ListChecks, Sparkles, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { subsidies, type SubsidyDef } from "@/lib/subsidies-data";
 
@@ -117,6 +117,102 @@ function SubsidyDetail() {
                 ))}
               </div>
             </div>
+
+            {/* Quantum of Assistance */}
+            {s.quantum && s.quantum.length > 0 && (
+              <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
+                <h2 className="font-display text-xl font-bold text-foreground">Quantum of Assistance</h2>
+                <div className="mt-4 overflow-hidden rounded-xl border border-border">
+                  <table className="w-full text-sm">
+                    <thead className="bg-secondary/60 text-left text-xs uppercase tracking-wider text-muted-foreground">
+                      <tr>
+                        <th className="px-4 py-2 font-semibold">Component</th>
+                        <th className="px-4 py-2 font-semibold">Benefit</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border">
+                      {s.quantum.map((q) => (
+                        <tr key={q.label}>
+                          <td className="px-4 py-2 font-medium text-foreground">{q.label}</td>
+                          <td className="px-4 py-2 text-muted-foreground">{q.value}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* Documents Required */}
+            {s.documents && s.documents.length > 0 && (
+              <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
+                <div className="flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-brand-orange" />
+                  <h2 className="font-display text-xl font-bold text-foreground">Documents Required</h2>
+                </div>
+                <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                  {s.documents.map((d) => (
+                    <li key={d} className="flex items-start gap-2 text-sm text-foreground">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-orange" />
+                      <span>{d}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Terms & Conditions */}
+            {s.conditions && s.conditions.length > 0 && (
+              <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
+                <div className="flex items-center gap-2">
+                  <ListChecks className="h-5 w-5 text-brand-orange" />
+                  <h2 className="font-display text-xl font-bold text-foreground">Terms & Conditions</h2>
+                </div>
+                <ul className="mt-4 space-y-2">
+                  {s.conditions.map((c) => (
+                    <li key={c} className="flex items-start gap-2 text-sm text-foreground">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-orange" />
+                      <span>{c}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Application Process */}
+            {s.process && s.process.length > 0 && (
+              <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
+                <h2 className="font-display text-xl font-bold text-foreground">How to Apply</h2>
+                <ol className="mt-4 space-y-3">
+                  {s.process.map((step, i) => (
+                    <li key={step} className="flex items-start gap-3 text-sm text-foreground">
+                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-orange text-xs font-bold text-white">
+                        {i + 1}
+                      </span>
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+
+            {/* Who is Not Eligible */}
+            {s.notEligible && s.notEligible.length > 0 && (
+              <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
+                <div className="flex items-center gap-2">
+                  <XCircle className="h-5 w-5 text-destructive" />
+                  <h2 className="font-display text-xl font-bold text-foreground">Who is Not Eligible</h2>
+                </div>
+                <ul className="mt-4 space-y-2">
+                  {s.notEligible.map((n) => (
+                    <li key={n} className="flex items-start gap-2 text-sm text-foreground">
+                      <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
+                      <span>{n}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           <aside className="space-y-6">
