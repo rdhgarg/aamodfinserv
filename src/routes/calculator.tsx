@@ -203,7 +203,9 @@ function EmiCalc() {
   const emi = emiFor(amount, rate, n);
   const totalPayable = emi * n;
   const totalInterest = Math.max(totalPayable - amount, 0);
+  const schedule = useMemo(() => buildSchedule(amount, rate, n, emi), [amount, rate, n, emi]);
   return (
+    <>
     <Shell
       inputs={
         <>
@@ -225,6 +227,8 @@ function EmiCalc() {
         />
       }
     />
+    <RepaymentSchedule schedule={schedule} emi={emi} />
+    </>
   );
 }
 
