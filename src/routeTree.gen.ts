@@ -15,7 +15,6 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -68,11 +67,6 @@ const PartnersRoute = PartnersRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CalculatorRoute = CalculatorRouteImport.update({
-  id: '/calculator',
-  path: '/calculator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -195,7 +189,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
-  '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -226,7 +219,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -257,7 +249,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
-  '/calculator': typeof CalculatorRoute
   '/contact': typeof ContactRoute
   '/partners': typeof PartnersRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -291,7 +282,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
-    | '/calculator'
     | '/contact'
     | '/partners'
     | '/robots.txt'
@@ -322,7 +312,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/calculator'
     | '/contact'
     | '/partners'
     | '/robots.txt'
@@ -352,7 +341,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
-    | '/calculator'
     | '/contact'
     | '/partners'
     | '/robots.txt'
@@ -385,7 +373,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
-  CalculatorRoute: typeof CalculatorRoute
   ContactRoute: typeof ContactRoute
   PartnersRoute: typeof PartnersRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
@@ -438,13 +425,6 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/calculator': {
-      id: '/calculator'
-      path: '/calculator'
-      fullPath: '/calculator'
-      preLoaderRoute: typeof CalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -679,7 +659,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
-  CalculatorRoute: CalculatorRoute,
   ContactRoute: ContactRoute,
   PartnersRoute: PartnersRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
