@@ -10,7 +10,7 @@ const nav = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
   { to: "/subsidies", label: "Subsidies" },
-  { to: "/calculator", label: "EMI Calculator" },
+  { to: "/calculator", label: "Calculators" },
   { to: "/partners", label: "Partners" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
