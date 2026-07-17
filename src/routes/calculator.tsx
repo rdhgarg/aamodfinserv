@@ -195,6 +195,103 @@ function emiFor(amount: number, annualRate: number, months: number) {
   return r === 0 ? amount / months : (amount * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
 }
 
+type SchedRow = { month: number; year: number; emi: number; principal: number; interest: number; balance: number };
+
+function buildSchedule(amount: number, annualRate: number, months: number, emi: number): SchedRow[] {
+  const r = annualRate / 12 / 100;
+  const rows: SchedRow[] = [];
+  let balance = amount;
+  for (let m = 1; m <= months; m++) {
+    const interest = balance * r;
+    let principal = emi - interest;
+    if (m === months) principal = balance; // clear rounding tail
+    balance = Math.max(balance - principal, 0);
+    rows.push({ month: m, year: Math.ceil(m / 12), emi, principal, interest, balance });
+  }
+  return rows;
+}
+
+function RepaymentSchedule({ schedule, emi }: { schedule: SchedRow[]; emi: number }) {
+  const [view, setView] = useState<"yearly" | "monthly">("yearly");
+  const yearly = useMemo(() => {
+    const map = new Map<number, { year: number; emi: number; principal: number; interest: number; balance: number }>();
+    for (const r of schedule) {
+      const cur = map.get(r.year) ?? { year: r.year, emi: 0, principal: 0, interest: 0, balance: 0 };
+      cur.emi += r.emi;
+      cur.principal += r.principal;
+      cur.interest += r.interest;
+      cur.balance = r.balance;
+      map.set(r.year, cur);
+    }
+    return Array.from(map.values());
+  }, [schedule]);
+  const totalPrincipal = schedule.reduce((s, r) => s + r.principal, 0);
+  return (
+    <div className="mt-8 rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h3 className="font-display text-xl font-bold text-foreground">Repayment schedule</h3>
+          <p className="text-sm text-muted-foreground">Amortization of EMI {inr(emi)} over {schedule.length} months.</p>
+        </div>
+        <div className="inline-flex rounded-full bg-secondary/60 p-1">
+          <button
+            type="button"
+            onClick={() => setView("yearly")}
+            className={`rounded-full px-4 py-1.5 text-xs font-semibold ${view === "yearly" ? "bg-card text-foreground shadow" : "text-muted-foreground"}`}
+          >
+            Yearly
+          </button>
+          <button
+            type="button"
+            onClick={() => setView("monthly")}
+            className={`rounded-full px-4 py-1.5 text-xs font-semibold ${view === "monthly" ? "bg-card text-foreground shadow" : "text-muted-foreground"}`}
+          >
+            Monthly
+          </button>
+        </div>
+      </div>
+      <div className="mt-4 max-h-[520px] overflow-auto rounded-xl border border-border">
+        <table className="w-full text-sm">
+          <thead className="sticky top-0 bg-secondary/80 text-left text-xs uppercase tracking-wider text-muted-foreground backdrop-blur">
+            <tr>
+              <th className="px-3 py-2 font-semibold">{view === "yearly" ? "Year" : "Month"}</th>
+              <th className="px-3 py-2 text-right font-semibold">Principal</th>
+              <th className="px-3 py-2 text-right font-semibold">Interest</th>
+              <th className="px-3 py-2 text-right font-semibold">Total paid</th>
+              <th className="px-3 py-2 text-right font-semibold">Balance</th>
+              <th className="px-3 py-2 text-right font-semibold">Loan paid</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-border">
+            {(view === "yearly" ? yearly : schedule).map((r) => {
+              const key = view === "yearly" ? `y-${r.year}` : `m-${(r as SchedRow).month}`;
+              const label = view === "yearly" ? r.year : (r as SchedRow).month;
+              const paidPct = totalPrincipal > 0 ? Math.min(100, ((totalPrincipal - r.balance) / totalPrincipal) * 100) : 0;
+              return (
+                <tr key={key} className="hover:bg-secondary/30">
+                  <td className="px-3 py-2 font-medium text-foreground">{label}</td>
+                  <td className="px-3 py-2 text-right">{inr(r.principal)}</td>
+                  <td className="px-3 py-2 text-right">{inr(r.interest)}</td>
+                  <td className="px-3 py-2 text-right">{inr(r.principal + r.interest)}</td>
+                  <td className="px-3 py-2 text-right">{inr(r.balance)}</td>
+                  <td className="px-3 py-2 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <div className="hidden h-1.5 w-16 overflow-hidden rounded-full bg-secondary sm:block">
+                        <div className="h-full bg-brand-orange" style={{ width: `${paidPct}%` }} />
+                      </div>
+                      <span className="tabular-nums text-xs text-muted-foreground">{paidPct.toFixed(1)}%</span>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 function EmiCalc() {
   const [amount, setAmount] = useState(2500000);
   const [rate, setRate] = useState(8.5);
