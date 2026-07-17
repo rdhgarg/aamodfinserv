@@ -201,16 +201,6 @@ export const subsidies: Record<string, SubsidyDef> = {
       "Faster project break-even",
       "Can be combined with RIPS 2024 (subject to no-overlap)",
     ],
-    faqs: [
-      {
-        q: "Am I eligible if I already availed another subsidy?",
-        a: "You cannot double-dip on the same benefit component under another State/Central scheme. Other components may still be claimable — we help you optimise the stack.",
-      },
-      {
-        q: "Is a bank defaulter eligible?",
-        a: "No — applicants classified as NPA or bank defaulters are not eligible under VYUPY 2025.",
-      },
-    ],
     documents: [
       "Aadhaar card & PAN of applicant / promoters",
       "Proof of Rajasthan domicile (Jan Aadhaar / Bhamashah / domicile certificate)",
